@@ -1,5 +1,6 @@
 package com.zm.service.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,9 @@ import com.zm.service.entity.House;
 import com.zm.service.entity.HouseTag;
 import com.zm.service.entity.SimpleHouse;
 import com.zm.service.feign.client.TagClient;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
@@ -53,7 +56,8 @@ public class HouseService {
 	}
 
 	public List<SimpleHouse> search(Condition condition, int pageIndex, int pageSize) {
-		List<House> list = null;
+
+		List<SimpleHouse> ret = null;
 		
 		double lat = condition.getLatitude();
 		double lon = condition.getLongitude();
@@ -82,14 +86,37 @@ public class HouseService {
 		if(tip==null){
 			tip = 1000000000;
 		}
-		String tags = condition.getTags();
-		
 		int offset = (pageIndex-1)*pageSize;
-		List<SimpleHouse> ret = null;
-		if(room == null){
-			ret = houseMapper.searchHouse(type, lat, lon, min, max, date, tip, offset, pageSize, );
+		
+		String tags = condition.getTags();
+		if(tags != null){
+			List<Integer> tagList;
+			try {
+				tagList = JSONUtils.getObjectListByJson(tags, Integer.class);
+			} catch (Exception e) {
+				throw new HandleException(ErrorCode.ARG_ERROR, "参数错误");
+			}
+			StringBuffer intagStrBuffer = new StringBuffer();
+			intagStrBuffer.append("(");
+			for(int i=0; i<tagList.size(); i++){
+				if(i!=0){
+					intagStrBuffer.append(",");
+				}
+				intagStrBuffer.append(tagList.get(i));
+			}
+			intagStrBuffer.append(")");
+			Integer tagSize = tagList.size();
+			if(room == null){
+				ret = houseMapper.searchHouseByTag(intagStrBuffer.toString(), tagSize, type, lat, lon, min, max, date, tip, offset, pageSize);
+			}else{
+				ret = houseMapper.searchHouseWithRoomByTag(intagStrBuffer.toString(), tagSize, type, room, lat, lon, min, max, date, tip, offset, pageSize);
+			}
 		}else{
-			ret = houseMapper.searchHouseWithRoom(type, room, lat, lon, min, max, date, tip, offset, pageSize);
+			if(room == null){
+				ret = houseMapper.searchHouse(type, lat, lon, min, max, date, tip, offset, pageSize);
+			}else{
+				ret = houseMapper.searchHouseWithRoom(type, room, lat, lon, min, max, date, tip, offset, pageSize);
+			}
 		}
 		return ret;
 	}
