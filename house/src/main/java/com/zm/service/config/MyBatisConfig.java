@@ -125,6 +125,7 @@ public class MyBatisConfig {
         fb.setDataSource(ds);//指定数据源(这个必须有，否则报错)
         //FIXME:下边两句仅仅用于*.xml文件，如果整个持久层操作不需要使用到xml文件的话（只用注解就可以搞定），则不加
         fb.setTypeAliasesPackage(env.getProperty("mybatis.typeAliasesPackage"));//指定基包
+        System.out.print("===============>>>>>>>>>>>>>"+env.getProperty("mybatis.typeAliasesPackage"));
         fb.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(env.getProperty("mybatis.mapperLocations")));//指定xml文件位置
         
         return fb.getObject();
