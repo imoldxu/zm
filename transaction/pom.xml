@@ -153,6 +153,7 @@
                     <include>**/application*.yaml</include>
                     <include>**/application*.properties</include>
                     <include>**/*.xml</include>
+                    <include>**/readme*</include>
                 </includes>
             </resource>
         </resources>
