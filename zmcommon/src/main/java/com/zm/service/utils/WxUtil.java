@@ -16,13 +16,8 @@ import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
 
 import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.SortedMap;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Formatter;
 import java.security.AlgorithmParameters;
 import java.security.MessageDigest;
@@ -30,7 +25,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.InetAddress;
 
 public class WxUtil {
 

@@ -1,24 +1,9 @@
 package com.zm.service.utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.wxpay.sdk.IWXPayDomain;
 import com.github.wxpay.sdk.WXPay;
 import com.github.wxpay.sdk.WXPayConfig;
 import com.github.wxpay.sdk.WXPayConstants;
@@ -111,7 +96,7 @@ public class MyWxPayUtil {
 		
 	}
 	
-	public static Map payBack(String notifyData) throws Exception {
+	public static Map<String, String> payBack(String notifyData) throws Exception {
 	    Map<String, String> notifyMap = null;
 	    
         WXPay wxpay = new WXPay(new MyWxPayConfig());
