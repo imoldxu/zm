@@ -29,14 +29,14 @@ import java.io.UnsupportedEncodingException;
 public class WxUtil {
 
 	public static final String grant_type = "client_credential";
-	public static final String appid = "wx163c4c3d188f8ee5";
+	public static final String appid = "wx163c4c3d188f8ee5";  //乐游
 	public static final String secret = "b930acfb50a02e11d1c55882ac813a05";
 	
-	public static final String app_appid = "wxc342d56bf6ebb44e";
+	public static final String app_appid = "wxc342d56bf6ebb44e";  //乐游
 	public static final String app_secret = "3557c60cb7981b2bd5165fe75696b584";
 
-	public static final String littleapp_appid = "wxc342d56bf6ebb44e";
-	public static final String littleapp_secret = "3557c60cb7981b2bd5165fe75696b584";
+	public static final String littleapp_appid = "wxd8562610a92fc200";  //租盟
+	public static final String littleapp_secret = "5fe6627ec1ed01d55dc3443672824210";
 	
 	
 	public static Map<String, String> sign(String url) {
