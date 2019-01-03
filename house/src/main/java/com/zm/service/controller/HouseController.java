@@ -81,7 +81,7 @@ public class HouseController{
 	* @description 搜索房源
 	* @method get
 	* @url /house-service/searchHouse
-	* @param conditionStr 必选 string condition对象的JSON字符串{"type":1,"min":150000,"max":200000,"tip":40000,"room":2,"place":"世豪广场","longitude":104.05072,"latitude":30.552,"indate":1542211200000,"tags":"[1,4,8]"}  
+	* @param conditionStr 必选 string condition对象的JSON字符串{"type":1,"min":150000,"max":400000,"tip":40000,"room":2,"place":"世豪广场","longitude":104.05072,"latitude":30.552,"indate":1542211200000,"tags":"[1,4,8]"}  
 	* @param pageIndex 必选 int 页码  
 	* @param pageSize 必选 int 每页最大数量
 	* @return {"code":1,"data":[],"msg":"成功"}
