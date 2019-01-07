@@ -45,7 +45,7 @@ public class UserService {
 			
 			return user;
 		} catch (IOException e) {
-			throw new HandleException(ErrorCode.WX_NET_ERROR, "微信网络异常");
+			throw new HandleException(ErrorCode.WX_NET_ERROR, e.getMessage());
 		}
 	}
 	
