@@ -1,5 +1,7 @@
 package com.zm.service.controller;
 
+import java.util.Base64;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -61,6 +63,7 @@ public class UserController{
 			try{
 				User user = userService.loginByWxMiniprogram(wxCode, rawData, signature, encryptedData, iv);
 				String sessionID = request.getSession().getId();
+				sessionID = Base64.getEncoder().encodeToString(sessionID.getBytes());
 				user.setSessionID(sessionID);
 				SessionUtil.setUserId(request, user.getId());
 				return Response.OK(user);
@@ -84,7 +87,9 @@ public class UserController{
 		try{
 			User user = userService.login(phone, password);
 			String sessionID = request.getSession().getId();
+			sessionID = Base64.getEncoder().encodeToString(sessionID.getBytes());
 			user.setSessionID(sessionID);
+			
 			SessionUtil.setUserId(request, user.getId());
 			return Response.OK(user);
 		}catch (HandleException e) {
