@@ -33,7 +33,7 @@ public class TransactionController{
 	* @title 创建交易
 	* @description 由求租者发起调用
 	* @method post
-	* @url /transaction-service/create
+	* @url /trans-service/create
 	* @param reserveid 必选 string 预约id  
 	* @return {"code":1,"data":{null},"msg":"成功"}
 	* @remark 这里是备注信息
@@ -64,7 +64,7 @@ public class TransactionController{
 	* @title 取消交易
 	* @description 由发布者发起调用
 	* @method post
-	* @url /transaction-service/cancel
+	* @url /trans-service/cancel
 	* @param tid 必选 string 交易id  
 	* @return {"code":1,"data":{null},"msg":"成功"}
 	* @remark 这里是备注信息
@@ -96,7 +96,7 @@ public class TransactionController{
 	* @title 确认交易
 	* @description 由发布者调用
 	* @method post
-	* @url /transaction-service/confirm
+	* @url /trans-service/confirm
 	* @param tid 必选 Long 交易id  
 	* @return {"code":1,"data":{},"msg":"成功"}
 	* @remark 这里是备注信息
@@ -128,7 +128,7 @@ public class TransactionController{
 	* @title 完成交易
 	* @description 由求租者点击完成
 	* @method post
-	* @url /transaction-service/complete
+	* @url /trans-service/complete
 	* @param tid 必选 Long 交易id  
 	* @return {"code":1,"data":{null},"msg":"成功"}
 	* @remark 这里是备注信息
@@ -160,7 +160,7 @@ public class TransactionController{
 	* @title 申诉订金
 	* @description 由发布者点击完成
 	* @method post
-	* @url /transaction-service/applytips
+	* @url /trans-service/applytips
 	* @param tid 必选 Long 交易id  
 	* @return {"code":1,"data":{null},"msg":"成功"}
 	* @remark 这里是备注信息
@@ -192,7 +192,7 @@ public class TransactionController{
 	* @title 获取发布者的交易
 	* @description 发布者我的房源已锁定中调用
 	* @method get
-	* @url /transaction-service/getIssuerTransaction
+	* @url /trans-service/getIssuerTransaction
 	* @return {"code":1,"data":{},"msg":"成功"}
 	* @remark 这里是备注信息
 	* @number 99
