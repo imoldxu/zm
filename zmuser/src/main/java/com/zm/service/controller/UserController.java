@@ -60,6 +60,8 @@ public class UserController{
 		} else {
 			try{
 				User user = userService.loginByWxMiniprogram(wxCode, rawData, signature, encryptedData, iv);
+				String sessionID = request.getSession().getId();
+				user.setSessionID(sessionID);
 				SessionUtil.setUserId(request, user.getId());
 				return Response.OK(user);
 			}catch (HandleException e) {
@@ -81,6 +83,8 @@ public class UserController{
 			HttpServletRequest request, HttpServletResponse response) {
 		try{
 			User user = userService.login(phone, password);
+			String sessionID = request.getSession().getId();
+			user.setSessionID(sessionID);
 			SessionUtil.setUserId(request, user.getId());
 			return Response.OK(user);
 		}catch (HandleException e) {
