@@ -2,6 +2,7 @@ package com.zm.service.feign.client.fallback;
 
 import org.springframework.stereotype.Component;
 
+import com.zm.service.context.ErrorCode;
 import com.zm.service.context.Response;
 import com.zm.service.feign.client.ReserveClient;
 
@@ -10,22 +11,22 @@ public class DefaultReserveClient implements ReserveClient {
 
 	@Override
 	public Response getReserveById(Long reserveid) {
-		return Response.SystemError();
+		return Response.Error(ErrorCode.MODULE_ERROR, "预约服务调用失败");
 	}
 
 	@Override
 	public Response payOver(Long reserveid) {
-		return Response.SystemError();
+		return Response.Error(ErrorCode.MODULE_ERROR, "预约服务调用失败");
 	}
 
 	@Override
 	public Response cancel(Long reserveid) {
-		return Response.SystemError();
+		return Response.Error(ErrorCode.MODULE_ERROR, "预约服务调用失败");
 	}
 
 	@Override
 	public Response close(Integer uid) {
-		return Response.SystemError();
+		return Response.Error(ErrorCode.MODULE_ERROR, "预约服务调用失败");
 	}
 
 }
