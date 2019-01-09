@@ -208,5 +208,13 @@ public class UserService {
 		userMapper.updateByPrimaryKey(user);
 	}
 
+	public User getUserById(Integer uid) {
+		User ret = userMapper.selectByPrimaryKey(uid);
+		if(ret==null){
+			throw new HandleException(ErrorCode.DATA_ERROR, "内部数据错误");
+		}
+		return ret;
+	}
+
 	
 }

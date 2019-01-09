@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zm.service.context.HandleException;
 import com.zm.service.context.Response;
 import com.zm.service.entity.Account;
+import com.zm.service.entity.User;
 import com.zm.service.feign.client.UserClient;
 import com.zm.service.service.AccountService;
+import com.zm.service.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,15 +25,24 @@ import io.swagger.annotations.ApiParam;
 public class UserClientImpl implements UserClient{
 
 	@Autowired
+	UserService userService;
+	@Autowired
 	AccountService accountService;
 	
 	@Override
 	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
 	@RequestMapping(value = "/getUser", method = RequestMethod.GET)
 	@ApiOperation(value = "获取用户信息", notes = "获取用户信息")
-	public Response getUser(Integer uid) {	
-		return Response.OK(null);
-	}
+	public Response getUser(@ApiParam(name="uid",value="用户id") @RequestParam(name="uid") Integer uid) {
+		try{
+			User user = userService.getUserById(uid);
+			return Response.OK(user);
+		}catch(HandleException e){
+			return Response.Error(e.getErrorCode(), e.getMessage()); 
+		}catch (Exception e) {
+			e.printStackTrace();
+			return Response.SystemError();
+		}	}
 
 	@Override
 	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
