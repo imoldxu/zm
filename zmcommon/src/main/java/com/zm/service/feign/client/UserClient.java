@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.zm.service.context.Response;
 import com.zm.service.feign.client.fallback.DefaultUserClient;
 
-@FeignClient(name="user-service", fallback=DefaultUserClient.class)
+@FeignClient(name="user-service")//, fallback=DefaultUserClient.class)
 public interface UserClient {
 
 	@RequestMapping(value = "/internal/getUser", method = RequestMethod.GET)
