@@ -17,4 +17,6 @@ public interface HouseClient {
 	@RequestMapping(value = "/internal/modifyState", method = RequestMethod.POST)
 	Response modifyState(@RequestParam(name="houseid")Long houseid, @RequestParam(name="state")int state);
 
+	@RequestMapping(value = "/internal/getSimpleHouseById", method = RequestMethod.GET)
+	public Response getSimpleHouseById(@RequestParam(name="houseid") Long houseid);
 }

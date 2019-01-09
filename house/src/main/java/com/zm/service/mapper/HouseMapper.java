@@ -32,4 +32,5 @@ public interface HouseMapper extends BaseMapper<House> {
 			@Param(value = "max") int max, @Param(value = "date") String date, @Param(value = "tip") int tip,
 			@Param(value = "offset") int offset, @Param(value = "pageSize") int pageSize);
 
+	SimpleHouse getSimpleHouseById(@Param(value="hid") Long hid);
 }

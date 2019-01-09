@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zm.service.context.HandleException;
 import com.zm.service.context.Response;
 import com.zm.service.entity.House;
+import com.zm.service.entity.SimpleHouse;
 import com.zm.service.feign.client.HouseClient;
 import com.zm.service.service.HouseService;
 
@@ -42,6 +43,23 @@ public class HouseClientImpl implements HouseClient{
 		}
 	}
 
+	@Override
+	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
+	@RequestMapping(value = "/getSimpleHouseById", method = RequestMethod.GET)
+	@ApiOperation(value = "获取房源", notes = "获取房源")
+	public Response getSimpleHouseById(@ApiParam(name="houseid", value="房源id") @RequestParam(name="houseid") Long houseid) {
+		
+		try{
+			SimpleHouse house = houseService.getSimpleHouseById(houseid);
+			return Response.OK(house);
+		}catch(HandleException e){
+			return Response.Error(e.getErrorCode(), e.getMessage());
+		}catch (Exception e) {
+			e.printStackTrace();
+			return Response.SystemError();
+		}
+	}
+	
 	@Override
 	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
 	@RequestMapping(value = "/modifyState", method = RequestMethod.POST)

@@ -12,13 +12,16 @@ import com.zm.service.entity.Condition;
 import com.zm.service.entity.House;
 import com.zm.service.entity.HouseTag;
 import com.zm.service.entity.SimpleHouse;
+import com.zm.service.entity.User;
 import com.zm.service.feign.client.TagClient;
+import com.zm.service.feign.client.UserClient;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
+import com.zm.service.context.Response;
 import com.zm.service.mapper.HouseMapper;
 import com.zm.service.utils.DateUtils;
 import com.zm.service.utils.JSONUtils;
@@ -35,6 +38,8 @@ public class HouseService {
 	HouseMapper houseMapper;
 	@Autowired
 	TagClient tagClient;
+	@Autowired
+	UserClient userClient;
 	
 
 	public House issue(Integer uid, House house) {
@@ -182,6 +187,17 @@ public class HouseService {
 			throw new HandleException(ErrorCode.NORMAL_ERROR, "房源状态异常");
 		}
 		houseMapper.updateByPrimaryKey(h);
+	}
+
+	public SimpleHouse getSimpleHouseById(Long houseid) {
+
+		SimpleHouse ret = houseMapper.getSimpleHouseById(houseid);
+	
+		ObjectMapper mapper = new ObjectMapper();
+		User user = mapper.convertValue(userClient.getUser(ret.getUid()).fetchOKData(), User.class);
+		ret.setPhone(user.getPhone());
+		
+		return ret;
 	}
 
 	

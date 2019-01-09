@@ -18,4 +18,9 @@ public class DefaultHouseClient implements HouseClient {
 		return Response.SystemError();
 	}
 
+	@Override
+	public Response getSimpleHouseById(Long houseid) {
+		return Response.SystemError();
+	}
+
 }

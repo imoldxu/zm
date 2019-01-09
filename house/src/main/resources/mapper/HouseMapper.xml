@@ -12,11 +12,12 @@
 	    <result column="amount" property="amount" jdbcType="INTEGER" />
 	    <result column="distance" property="distance" jdbcType="INTEGER" />
 	    <result column="tags" property="tags" jdbcType="VARCHAR" />
+	    <result column="uid" property="uid" jdbcType="INTEGER" />
   	</resultMap>
 
 	<select id="searchHouseByTag" resultMap="MySimpleHouse">
-	    SELECT id, name, imglist, area, model, amount, createtime, distance, tags FROM (
-		SELECT t_house.id, t_house.name, t_house.imglist, t_house.area, CONCAT(t_house.room,"室",t_house.parlor,"厅",t_house.toilet,"卫") as model, t_house.amount, t_house.createtime, ROUND(
+	    SELECT id, name, uid, imglist, area, model, amount, createtime, distance, tags FROM (
+		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, CONCAT(t_house.room,"室",t_house.parlor,"厅",t_house.toilet,"卫") as model, t_house.amount, t_house.createtime, ROUND(
 			6378.138 * 2 * ASIN(
 	        	SQRT(
 	                POW(
@@ -41,8 +42,8 @@
 	</select>
 	
 	<select id="searchHouseWithRoomByTag" resultMap="MySimpleHouse">
-	    SELECT id, name, imglist, area, model, amount, createtime, distance, tags FROM (
-		SELECT t_house.id, t_house.name, t_house.imglist, t_house.area, CONCAT(t_house.room,"室",t_house.parlor,"厅",t_house.toilet,"卫") as model, t_house.amount, t_house.createtime, ROUND(
+	    SELECT id, name, uid, imglist, area, model, amount, createtime, distance, tags FROM (
+		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, CONCAT(t_house.room,"室",t_house.parlor,"厅",t_house.toilet,"卫") as model, t_house.amount, t_house.createtime, ROUND(
 			6378.138 * 2 * ASIN(
 	        	SQRT(
 	                POW(
@@ -67,7 +68,7 @@
 	</select>
 	
 	<select id="searchHouse" resultMap="MySimpleHouse">
-		SELECT t_house.id, t_house.name, t_house.imglist, t_house.area, CONCAT(t_house.room,"室",t_house.parlor,"厅",t_house.toilet,"卫") as model, t_house.amount, t_house.createtime, ROUND(
+		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, CONCAT(t_house.room,"室",t_house.parlor,"厅",t_house.toilet,"卫") as model, t_house.amount, t_house.createtime, ROUND(
 			6378.138 * 2 * ASIN(
 	        	SQRT(
 	                POW(
@@ -87,11 +88,11 @@
 	                )
 	        	)
 	        ) * 1000
-	   ) AS distance FROM t_house WHERE t_house.type = #{type,jdbcType=TINYINT} AND t_house.amount BETWEEN #{min,jdbcType=INTEGER} AND #{max,jdbcType=INTEGER} AND t_house.outdate &lt;= #{date,jdbcType=VARCHAR} AND t_house.tip &lt;= #{tip,jdbcType=INTEGER} AND t_house.state = 1 AND t_house.latitude BETWEEN #{lat,jdbcType=DOUBLE}-0.1 AND #{lat,jdbcType=DOUBLE}+0.1 AND t_house.longitude BETWEEN #{lon,jdbcType=DOUBLE}-0.1 AND #{lon,jdbcType=DOUBLE}+0.1 ORDER BY distance ASC LIMIT #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	   ) AS distance, CONCAT("[",GROUP_CONCAT(t_housetag.tagname),"]") as tags FROM t_house LEFT JOIN t_housetag ON t_housetag.houseid = t_house.id WHERE t_house.type = #{type,jdbcType=TINYINT} AND t_house.amount BETWEEN #{min,jdbcType=INTEGER} AND #{max,jdbcType=INTEGER} AND t_house.outdate &lt;= #{date,jdbcType=VARCHAR} AND t_house.tip &lt;= #{tip,jdbcType=INTEGER} AND t_house.state = 1 AND t_house.latitude BETWEEN #{lat,jdbcType=DOUBLE}-0.1 AND #{lat,jdbcType=DOUBLE}+0.1 AND t_house.longitude BETWEEN #{lon,jdbcType=DOUBLE}-0.1 AND #{lon,jdbcType=DOUBLE}+0.1 GROUP BY t_housetag.houseid ORDER BY distance ASC LIMIT #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
 	
 	<select id="searchHouseWithRoom" resultMap="MySimpleHouse">
-		SELECT t_house.id, t_house.name, t_house.imglist, t_house.area, CONCAT(t_house.room,"室",t_house.parlor,"厅",t_house.toilet,"卫") as model, t_house.amount, t_house.createtime, ROUND(
+		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, CONCAT(t_house.room,"室",t_house.parlor,"厅",t_house.toilet,"卫") as model, t_house.amount, t_house.createtime, ROUND(
 			6378.138 * 2 * ASIN(
 	        	SQRT(
 	                POW(
@@ -111,7 +112,11 @@
 	                )
 	        	)
 	        ) * 1000
-	   ) AS distance FROM t_house WHERE t_house.room = #{room,jdbcType=INTEGER} AND t_house.type = #{type,jdbcType=TINYINT} AND t_house.amount BETWEEN #{min,jdbcType=INTEGER} AND #{max,jdbcType=INTEGER} AND t_house.outdate &lt;= #{date,jdbcType=VARCHAR} AND t_house.tip &lt;= #{tip,jdbcType=INTEGER} AND t_house.state = 1 AND t_house.latitude BETWEEN #{lat,jdbcType=DOUBLE}-0.1 AND #{lat,jdbcType=DOUBLE}+0.1 AND t_house.longitude BETWEEN #{lon,jdbcType=DOUBLE}-0.1 AND #{lon,jdbcType=DOUBLE}+0.1 ORDER BY distance ASC LIMIT #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	   ) AS distance CONCAT("[",GROUP_CONCAT(t_housetag.tagname),"]") as tags FROM t_house LEFT JOIN t_housetag ON t_housetag.houseid = t_house.id WHERE t_house.room = #{room,jdbcType=INTEGER} AND t_house.type = #{type,jdbcType=TINYINT} AND t_house.amount BETWEEN #{min,jdbcType=INTEGER} AND #{max,jdbcType=INTEGER} AND t_house.outdate &lt;= #{date,jdbcType=VARCHAR} AND t_house.tip &lt;= #{tip,jdbcType=INTEGER} AND t_house.state = 1 AND t_house.latitude BETWEEN #{lat,jdbcType=DOUBLE}-0.1 AND #{lat,jdbcType=DOUBLE}+0.1 AND t_house.longitude BETWEEN #{lon,jdbcType=DOUBLE}-0.1 AND #{lon,jdbcType=DOUBLE}+0.1 GROUP BY t_housetag.houseid ORDER BY distance ASC LIMIT #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
 	
+	
+	<select id="getSimpleHouseById" resultMap="MySimpleHouse">
+		SELECT t_house.id, t_house.name, t_house.imglist, t_house.area, CONCAT(t_house.room,"室",t_house.parlor,"厅",t_house.toilet,"卫") as model, t_house.amount, t_house.createtime, CONCAT("[",GROUP_CONCAT(t_housetag.tagname),"]") as tags FROM t_house LEFT JOIN t_housetag ON t_housetag.houseid = t_house.id WHERE t_house.id = #{hid,jdbcType=INTEGER} GROUP BY t_housetag.houseid
+	</select>
 </mapper>

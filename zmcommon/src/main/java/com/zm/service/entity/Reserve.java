@@ -27,7 +27,7 @@ public class Reserve {
 	private Long houseid;
 	
 	@Transient
-	private House house;
+	private SimpleHouse house;
 	
 	@Transient
 	private Order order;
@@ -40,11 +40,11 @@ public class Reserve {
 		this.order = order;
 	}
 
-	public House getHouse() {
+	public SimpleHouse getHouse() {
 		return house;
 	}
 
-	public void setHouse(House house) {
+	public void setHouse(SimpleHouse house) {
 		this.house = house;
 	}
 

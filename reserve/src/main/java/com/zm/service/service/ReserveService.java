@@ -15,6 +15,7 @@ import com.zm.service.entity.House;
 import com.zm.service.entity.Message;
 import com.zm.service.entity.Order;
 import com.zm.service.entity.Reserve;
+import com.zm.service.entity.SimpleHouse;
 import com.zm.service.feign.client.HouseClient;
 import com.zm.service.feign.client.MessageClient;
 import com.zm.service.feign.client.OrderClient;
@@ -44,11 +45,11 @@ public class ReserveService {
 	@Transactional
 	public Reserve create(int uid, Long houseid, String datetime) {
 		
-		Response resp = houseClient.getHouseById(houseid);
-		House house = null;
+		Response resp = houseClient.getSimpleHouseById(houseid);
+		SimpleHouse house = null;
 		
 		ObjectMapper mapper = new ObjectMapper();
-		house = mapper.convertValue(resp.fetchOKData(), House.class);
+		house = mapper.convertValue(resp.fetchOKData(), SimpleHouse.class);
 		//检查预约创建者是否与发布者一致
 		if(uid==house.getUid()){
 			throw new HandleException(ErrorCode.NORMAL_ERROR, "无法向自己预约");
@@ -206,6 +207,11 @@ public class ReserveService {
 			ret = getRCompleteReserve(uid);
 		}else{
 			throw new HandleException(ErrorCode.ARG_ERROR, "参数错误");
+		}
+		for(Reserve reserve : ret){
+			ObjectMapper om = new ObjectMapper();
+			SimpleHouse house = om.convertValue(houseClient.getSimpleHouseById(reserve.getHouseid()).fetchOKData(), SimpleHouse.class);
+			reserve.setHouse(house);
 		}
 		return ret;
 	}

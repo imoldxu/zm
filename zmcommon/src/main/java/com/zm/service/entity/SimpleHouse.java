@@ -20,6 +20,10 @@ public class SimpleHouse {
 	
 	private int distance;
 	
+	private Integer uid;//发布者id
+	
+	private String phone;//发布者phone
+	
 	private String tags;
 
 	public Long getId() {
@@ -93,4 +97,21 @@ public class SimpleHouse {
 	public void setTags(String tags) {
 		this.tags = tags;
 	}
+
+	public Integer getUid() {
+		return uid;
+	}
+
+	public void setUid(Integer uid) {
+		this.uid = uid;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
 }
