@@ -54,10 +54,12 @@ public class HouseController{
 			@ApiParam(name = "houseStr", value = "house的json传") @RequestParam(name = "houseStr") String houseStr,
 			HttpServletRequest request, HttpServletResponse response) {
 		House house = null;
+		
 		try{
 			house = JSONUtils.getObjectByJson(houseStr, House.class);
 		}catch (Exception e) {
-			return Response.Error(ErrorCode.ARG_ERROR, "参数错误");
+			System.out.println("houseStr:=====>"+houseStr);
+			return Response.Error(ErrorCode.ARG_ERROR, "参数错误:"+houseStr);
 		}
 		
 		try{
@@ -100,6 +102,7 @@ public class HouseController{
 		try{
 			condition = JSONUtils.getObjectByJson(conditionStr, Condition.class);
 		}catch (Exception e) {
+			System.out.println("conditionStr:=====>"+conditionStr);
 			return Response.Error(ErrorCode.ARG_ERROR, "参数错误");
 		}
 		
