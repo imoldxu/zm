@@ -14,7 +14,11 @@ public class SimpleHouse {
 	
 	private int area;
 	
-	private String model;
+	private Integer parlor;//厅
+	
+	private Integer room;
+	
+	private Integer toilet;
 	
 	private int amount;
 	
@@ -56,14 +60,6 @@ public class SimpleHouse {
 
 	public void setArea(int area) {
 		this.area = area;
-	}
-
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
 	}
 
 	public int getAmount() {
@@ -112,6 +108,30 @@ public class SimpleHouse {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public Integer getParlor() {
+		return parlor;
+	}
+
+	public void setParlor(Integer parlor) {
+		this.parlor = parlor;
+	}
+
+	public Integer getRoom() {
+		return room;
+	}
+
+	public void setRoom(Integer room) {
+		this.room = room;
+	}
+
+	public Integer getToilet() {
+		return toilet;
+	}
+
+	public void setToilet(Integer toilet) {
+		this.toilet = toilet;
 	}
 	
 }
