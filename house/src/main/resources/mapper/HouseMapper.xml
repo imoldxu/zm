@@ -37,7 +37,7 @@
 	                )
 	        	)
 	        ) * 1000
-	   ) AS distance, CONCAT("[",GROUP_CONCAT(t_housetag.tagname),"]") as tags,count(*) as num FROM t_housetag left join t_house on t_housetag.houseid = t_house.id WHERE t_housetag.tagid in ${tags} AND (t_housetag.good-t_housetag.bad) > 0 AND t_house.type = #{type,jdbcType=TINYINT} AND t_house.amount BETWEEN #{min,jdbcType=INTEGER} AND #{max,jdbcType=INTEGER} AND t_house.outdate &lt;= #{date,jdbcType=VARCHAR} AND t_house.tip &lt;= #{tip,jdbcType=INTEGER} AND t_house.state = 1 AND t_house.latitude BETWEEN #{lat,jdbcType=DOUBLE}-0.1 AND #{lat,jdbcType=DOUBLE}+0.1 AND t_house.longitude BETWEEN #{lon,jdbcType=DOUBLE}-0.1 AND #{lon,jdbcType=DOUBLE}+0.1 GROUP BY t_housetag.houseid ORDER BY distance ASC 
+	   ) AS distance, CONCAT("[",GROUP_CONCAT(CONCAT("\"",t_housetag.tagname,"\"")),"]") as tags, count(*) as num FROM t_housetag left join t_house on t_housetag.houseid = t_house.id WHERE t_housetag.tagid in ${tags} AND (t_housetag.good-t_housetag.bad) > 0 AND t_house.type = #{type,jdbcType=TINYINT} AND t_house.amount BETWEEN #{min,jdbcType=INTEGER} AND #{max,jdbcType=INTEGER} AND t_house.outdate &lt;= #{date,jdbcType=VARCHAR} AND t_house.tip &lt;= #{tip,jdbcType=INTEGER} AND t_house.state = 1 AND t_house.latitude BETWEEN #{lat,jdbcType=DOUBLE}-0.1 AND #{lat,jdbcType=DOUBLE}+0.1 AND t_house.longitude BETWEEN #{lon,jdbcType=DOUBLE}-0.1 AND #{lon,jdbcType=DOUBLE}+0.1 GROUP BY t_housetag.houseid ORDER BY distance ASC 
 		) AS temp where temp.num = #{tagSize,jdbcType=INTEGER} LIMIT #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
 	
@@ -63,7 +63,7 @@
 	                )
 	        	)
 	        ) * 1000
-	   ) AS distance, CONCAT("[",GROUP_CONCAT(t_housetag.tagname),"]") as tags,count(*) as num FROM t_housetag left join t_house on t_housetag.houseid = t_house.id WHERE t_housetag.tagid in ${tags} AND (t_housetag.good-t_housetag.bad) > 0 AND t_house.room = #{room,jdbcType=INTEGER} AND t_house.type = #{type,jdbcType=TINYINT} AND t_house.amount BETWEEN #{min,jdbcType=INTEGER} AND #{max,jdbcType=INTEGER} AND t_house.outdate &lt;= #{date,jdbcType=VARCHAR} AND t_house.tip &lt;= #{tip,jdbcType=INTEGER} AND t_house.state = 1 AND t_house.latitude BETWEEN #{lat,jdbcType=DOUBLE}-0.1 AND #{lat,jdbcType=DOUBLE}+0.1 AND t_house.longitude BETWEEN #{lon,jdbcType=DOUBLE}-0.1 AND #{lon,jdbcType=DOUBLE}+0.1  GROUP BY t_housetag.houseid ORDER BY distance ASC 
+	   ) AS distance, CONCAT("[",GROUP_CONCAT(CONCAT("\"",t_housetag.tagname,"\"")),"]") as tags, count(*) as num FROM t_housetag left join t_house on t_housetag.houseid = t_house.id WHERE t_housetag.tagid in ${tags} AND (t_housetag.good-t_housetag.bad) > 0 AND t_house.room = #{room,jdbcType=INTEGER} AND t_house.type = #{type,jdbcType=TINYINT} AND t_house.amount BETWEEN #{min,jdbcType=INTEGER} AND #{max,jdbcType=INTEGER} AND t_house.outdate &lt;= #{date,jdbcType=VARCHAR} AND t_house.tip &lt;= #{tip,jdbcType=INTEGER} AND t_house.state = 1 AND t_house.latitude BETWEEN #{lat,jdbcType=DOUBLE}-0.1 AND #{lat,jdbcType=DOUBLE}+0.1 AND t_house.longitude BETWEEN #{lon,jdbcType=DOUBLE}-0.1 AND #{lon,jdbcType=DOUBLE}+0.1  GROUP BY t_housetag.houseid ORDER BY distance ASC 
 		) AS temp where temp.num = #{tagSize,jdbcType=INTEGER} LIMIT #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
 	
@@ -88,7 +88,7 @@
 	                )
 	        	)
 	        ) * 1000
-	   ) AS distance, CONCAT("[",GROUP_CONCAT(t_housetag.tagname),"]") as tags FROM t_house LEFT JOIN t_housetag ON t_housetag.houseid = t_house.id WHERE t_house.type = #{type,jdbcType=TINYINT} AND t_house.amount BETWEEN #{min,jdbcType=INTEGER} AND #{max,jdbcType=INTEGER} AND t_house.outdate &lt;= #{date,jdbcType=VARCHAR} AND t_house.tip &lt;= #{tip,jdbcType=INTEGER} AND t_house.state = 1 AND t_house.latitude BETWEEN #{lat,jdbcType=DOUBLE}-0.1 AND #{lat,jdbcType=DOUBLE}+0.1 AND t_house.longitude BETWEEN #{lon,jdbcType=DOUBLE}-0.1 AND #{lon,jdbcType=DOUBLE}+0.1 AND (t_housetag.good-t_housetag.bad) > 0 GROUP BY t_housetag.houseid ORDER BY distance ASC LIMIT #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	   ) AS distance, CONCAT("[",GROUP_CONCAT(CONCAT("\"",t_housetag.tagname,"\"")),"]") as tags FROM t_house LEFT JOIN t_housetag ON t_housetag.houseid = t_house.id WHERE t_house.type = #{type,jdbcType=TINYINT} AND t_house.amount BETWEEN #{min,jdbcType=INTEGER} AND #{max,jdbcType=INTEGER} AND t_house.outdate &lt;= #{date,jdbcType=VARCHAR} AND t_house.tip &lt;= #{tip,jdbcType=INTEGER} AND t_house.state = 1 AND t_house.latitude BETWEEN #{lat,jdbcType=DOUBLE}-0.1 AND #{lat,jdbcType=DOUBLE}+0.1 AND t_house.longitude BETWEEN #{lon,jdbcType=DOUBLE}-0.1 AND #{lon,jdbcType=DOUBLE}+0.1 AND (t_housetag.good-t_housetag.bad) > 0 GROUP BY t_housetag.houseid ORDER BY distance ASC LIMIT #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
 	
 	<select id="searchHouseWithRoom" resultMap="MySimpleHouse">
@@ -112,7 +112,7 @@
 	                )
 	        	)
 	        ) * 1000
-	   ) AS distance CONCAT("[",GROUP_CONCAT(t_housetag.tagname),"]") as tags FROM t_house LEFT JOIN t_housetag ON t_housetag.houseid = t_house.id WHERE t_house.room = #{room,jdbcType=INTEGER} AND t_house.type = #{type,jdbcType=TINYINT} AND t_house.amount BETWEEN #{min,jdbcType=INTEGER} AND #{max,jdbcType=INTEGER} AND t_house.outdate &lt;= #{date,jdbcType=VARCHAR} AND t_house.tip &lt;= #{tip,jdbcType=INTEGER} AND t_house.state = 1 AND t_house.latitude BETWEEN #{lat,jdbcType=DOUBLE}-0.1 AND #{lat,jdbcType=DOUBLE}+0.1 AND t_house.longitude BETWEEN #{lon,jdbcType=DOUBLE}-0.1 AND #{lon,jdbcType=DOUBLE}+0.1 AND (t_housetag.good-t_housetag.bad) > 0 GROUP BY t_housetag.houseid ORDER BY distance ASC LIMIT #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	   ) AS distance, CONCAT("[",GROUP_CONCAT(CONCAT("\"",t_housetag.tagname,"\"")),"]") as tags FROM t_house LEFT JOIN t_housetag ON t_housetag.houseid = t_house.id WHERE t_house.room = #{room,jdbcType=INTEGER} AND t_house.type = #{type,jdbcType=TINYINT} AND t_house.amount BETWEEN #{min,jdbcType=INTEGER} AND #{max,jdbcType=INTEGER} AND t_house.outdate &lt;= #{date,jdbcType=VARCHAR} AND t_house.tip &lt;= #{tip,jdbcType=INTEGER} AND t_house.state = 1 AND t_house.latitude BETWEEN #{lat,jdbcType=DOUBLE}-0.1 AND #{lat,jdbcType=DOUBLE}+0.1 AND t_house.longitude BETWEEN #{lon,jdbcType=DOUBLE}-0.1 AND #{lon,jdbcType=DOUBLE}+0.1 AND (t_housetag.good-t_housetag.bad) > 0 GROUP BY t_housetag.houseid ORDER BY distance ASC LIMIT #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
 	
 	
