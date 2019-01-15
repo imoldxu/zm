@@ -65,7 +65,7 @@ public class House {
 	private Integer room;
 	
 	@Column(name = "area")
-	@ColumnType(jdbcType = JdbcType.TINYINT)
+	@ColumnType(jdbcType = JdbcType.INTEGER)
 	private Integer area;
 	
 	@Column(name = "toilet")
