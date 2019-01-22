@@ -218,7 +218,7 @@ public class ReserveService {
 	
 	private List<Reserve> getRUnConfirmReserve(int uid){
 		Example ex = new Example(Reserve.class);
-		ex.and().andEqualTo("ruid", uid).andEqualTo("state", Reserve.STATE_NEW);
+		ex.and().andEqualTo("ruid", uid).andEqualTo("state", Reserve.STATE_VALID);
 		
 		Criteria stateCondition = ex.or().andNotEqualTo("istate", Reserve.USER_STATE_CONFIRM).orNotEqualTo("rstate", Reserve.USER_STATE_CONFIRM);
 		ex.and(stateCondition);
@@ -229,7 +229,7 @@ public class ReserveService {
 	
 	private List<Reserve> getIUnConfirmReserve(int uid){
 		Example ex = new Example(Reserve.class);
-		ex.and().andEqualTo("iuid", uid).andEqualTo("state", Reserve.STATE_NEW);
+		ex.and().andEqualTo("iuid", uid).andEqualTo("state", Reserve.STATE_VALID);
 		
 		Criteria stateCondition = ex.or().andNotEqualTo("istate", Reserve.USER_STATE_CONFIRM).orNotEqualTo("rstate", Reserve.USER_STATE_CONFIRM);
 		ex.and(stateCondition);
