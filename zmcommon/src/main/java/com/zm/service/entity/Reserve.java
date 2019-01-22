@@ -60,6 +60,17 @@ public class Reserve {
 	@ColumnType(jdbcType = JdbcType.INTEGER)
 	private Integer ruid;//单元数
 
+	@Transient
+	private User ruser;//求租用户
+
+	public User getRuser() {
+		return ruser;
+	}
+
+	public void setRuser(User ruser) {
+		this.ruser = ruser;
+	}
+
 	public static final int USER_STATE_UNCONFIRM = 1;
 	public static final int USER_STATE_CONFIRM = 2;
 	

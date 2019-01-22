@@ -16,6 +16,7 @@ import com.zm.service.entity.Message;
 import com.zm.service.entity.Order;
 import com.zm.service.entity.Reserve;
 import com.zm.service.entity.SimpleHouse;
+import com.zm.service.entity.User;
 import com.zm.service.feign.client.HouseClient;
 import com.zm.service.feign.client.MessageClient;
 import com.zm.service.feign.client.OrderClient;
@@ -193,6 +194,11 @@ public class ReserveService {
 			ret = getICompleteReserve(uid);
 		}else{
 			throw new HandleException(ErrorCode.ARG_ERROR, "参数错误");
+		}
+		for(Reserve reserve : ret){
+			ObjectMapper om = new ObjectMapper();
+			User user = om.convertValue(userClient.getUser(reserve.getRuid()).fetchOKData(), User.class);
+			reserve.setRuser(user);
 		}
 		return ret;
 	}
