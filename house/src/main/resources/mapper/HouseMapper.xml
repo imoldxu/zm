@@ -15,11 +15,12 @@
 	    <result column="distance" property="distance" jdbcType="INTEGER" />
 	    <result column="tags" property="tags" jdbcType="VARCHAR" />
 	    <result column="uid" property="uid" jdbcType="INTEGER" />
+	    <result column="state" property="state" jdbcType="INTEGER" />
   	</resultMap>
 
 	<select id="searchHouseByTag" resultMap="MySimpleHouse">
-	    SELECT id, name, uid, imglist, area, parlor, room, toilet, amount, createtime, distance, tags FROM (
-		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, t_house.room, t_house.parlor, t_house.toilet, t_house.amount, t_house.createtime, ROUND(
+	    SELECT id, name, uid, imglist, area, parlor, room, toilet, amount, createtime, distance, tags, state FROM (
+		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, t_house.room, t_house.parlor, t_house.toilet, t_house.amount, t_house.createtime, t_house.state, ROUND(
 			6378.138 * 2 * ASIN(
 	        	SQRT(
 	                POW(
@@ -44,8 +45,8 @@
 	</select>
 	
 	<select id="searchHouseWithRoomByTag" resultMap="MySimpleHouse">
-	    SELECT id, name, uid, imglist, area,  parlor, room, toilet, amount, createtime, distance, tags FROM (
-		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, t_house.room, t_house.parlor, t_house.toilet, t_house.amount, t_house.createtime, ROUND(
+	    SELECT id, name, uid, imglist, area,  parlor, room, toilet, amount, createtime, distance, tags, state FROM (
+		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, t_house.room, t_house.parlor, t_house.toilet, t_house.amount, t_house.createtime, t_house.state ROUND(
 			6378.138 * 2 * ASIN(
 	        	SQRT(
 	                POW(
@@ -70,7 +71,7 @@
 	</select>
 	
 	<select id="searchHouse" resultMap="MySimpleHouse">
-		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, t_house.room, t_house.parlor, t_house.toilet, t_house.amount, t_house.createtime, ROUND(
+		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, t_house.room, t_house.parlor, t_house.toilet, t_house.amount, t_house.createtime, t_house.state, ROUND(
 			6378.138 * 2 * ASIN(
 	        	SQRT(
 	                POW(
@@ -94,7 +95,7 @@
 	</select>
 	
 	<select id="searchHouseWithRoom" resultMap="MySimpleHouse">
-		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, t_house.room, t_house.parlor, t_house.toilet, t_house.amount, t_house.createtime, ROUND(
+		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, t_house.room, t_house.parlor, t_house.toilet, t_house.amount, t_house.createtime, t_house.state, ROUND(
 			6378.138 * 2 * ASIN(
 	        	SQRT(
 	                POW(
@@ -119,6 +120,6 @@
 	
 	
 	<select id="getSimpleHouseById" resultMap="MySimpleHouse">
-		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, t_house.room, t_house.parlor, t_house.toilet, t_house.amount, t_house.createtime, CONCAT("[",GROUP_CONCAT( IF(t_housetag.good-t_housetag.bad>0,CONCAT("\"",t_housetag.tagname,"\""),NULL)),"]") as tags FROM t_house LEFT JOIN t_housetag ON t_housetag.houseid = t_house.id WHERE t_house.id = #{hid,jdbcType=INTEGER} GROUP BY t_housetag.houseid
+		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, t_house.room, t_house.parlor, t_house.toilet, t_house.amount, t_house.createtime, t_house.state, CONCAT("[",GROUP_CONCAT( IF(t_housetag.good-t_housetag.bad>0,CONCAT("\"",t_housetag.tagname,"\""),NULL)),"]") as tags FROM t_house LEFT JOIN t_housetag ON t_housetag.houseid = t_house.id WHERE t_house.id = #{hid,jdbcType=INTEGER} GROUP BY t_housetag.houseid
 	</select>
 </mapper>

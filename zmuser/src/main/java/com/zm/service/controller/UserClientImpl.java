@@ -42,7 +42,8 @@ public class UserClientImpl implements UserClient{
 		}catch (Exception e) {
 			e.printStackTrace();
 			return Response.SystemError();
-		}	}
+		}	
+	}
 
 	@Override
 	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")

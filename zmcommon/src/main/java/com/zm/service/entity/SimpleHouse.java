@@ -29,6 +29,8 @@ public class SimpleHouse {
 	private String phone;//发布者phone
 	
 	private String tags;
+	
+	private int state;
 
 	public Long getId() {
 		return id;
@@ -132,6 +134,14 @@ public class SimpleHouse {
 
 	public void setToilet(Integer toilet) {
 		this.toilet = toilet;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
 	}
 	
 }
