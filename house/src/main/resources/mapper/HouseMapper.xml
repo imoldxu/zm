@@ -46,7 +46,7 @@
 	
 	<select id="searchHouseWithRoomByTag" resultMap="MySimpleHouse">
 	    SELECT id, name, uid, imglist, area,  parlor, room, toilet, amount, createtime, distance, tags, state FROM (
-		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, t_house.room, t_house.parlor, t_house.toilet, t_house.amount, t_house.createtime, t_house.state ROUND(
+		SELECT t_house.id, t_house.name, t_house.uid, t_house.imglist, t_house.area, t_house.room, t_house.parlor, t_house.toilet, t_house.amount, t_house.createtime, t_house.state, ROUND(
 			6378.138 * 2 * ASIN(
 	        	SQRT(
 	                POW(
