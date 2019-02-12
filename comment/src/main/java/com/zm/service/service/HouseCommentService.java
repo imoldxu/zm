@@ -75,7 +75,7 @@ public class HouseCommentService {
 		return comments;
 	}
 
-	public HComment getLastComment(String houseid) {
+	public HComment getLastComment(Long houseid) {
 		Example ex = new Example(HComment.class);
 		ex.createCriteria().andEqualTo("houseid", houseid);
 		ex.setOrderByClause("id desc");

@@ -35,7 +35,15 @@ public class TransactionController{
 	* @method post
 	* @url /trans-service/create
 	* @param reserveid 必选 string 预约id  
-	* @return {"code":1,"data":{null},"msg":"成功"}
+	* @return {"code":1,"data":{"id":1,"houseid":2,"iuid":2,"ruid":1,"state":1,"createtime":1549952060753,"amount":3600,"order":null},"msg":"成功"}
+	* @return_param id long 交易id，后续接口中的tid
+	* @return_param houseid long 房源id
+	* @return_param iuid int 发布者用户id
+	* @return_param ruid int 求助者用户id
+	* @return_param state int 交易状态，1为新建未付款，2为求租者已付款确认，3为发布者已确认，4为求租者已经确认交易完成，5为交易已取消，6为交易无效
+	* @return_param createtime int 交易创建时间，距离1970年1月1日的毫秒数
+	* @return_param amount int 交易涉及的金额，单位为分
+	* @return_param order jsonObject 订单对象，若不为null则表示需要走支付流程
 	* @remark 这里是备注信息
 	* @number 99
 	*/
@@ -66,7 +74,7 @@ public class TransactionController{
 	* @method post
 	* @url /trans-service/cancel
 	* @param tid 必选 string 交易id  
-	* @return {"code":1,"data":{null},"msg":"成功"}
+	* @return {"code":1,"data":null,"msg":"成功"}
 	* @remark 这里是备注信息
 	* @number 99
 	*/
@@ -98,7 +106,7 @@ public class TransactionController{
 	* @method post
 	* @url /trans-service/confirm
 	* @param tid 必选 Long 交易id  
-	* @return {"code":1,"data":{},"msg":"成功"}
+	* @return {"code":1,"data":null,"msg":"成功"}
 	* @remark 这里是备注信息
 	* @number 99
 	*/
@@ -130,7 +138,7 @@ public class TransactionController{
 	* @method post
 	* @url /trans-service/complete
 	* @param tid 必选 Long 交易id  
-	* @return {"code":1,"data":{null},"msg":"成功"}
+	* @return {"code":1,"data":null,"msg":"成功"}
 	* @remark 这里是备注信息
 	* @number 99
 	*/
@@ -162,7 +170,7 @@ public class TransactionController{
 	* @method post
 	* @url /trans-service/applytips
 	* @param tid 必选 Long 交易id  
-	* @return {"code":1,"data":{null},"msg":"成功"}
+	* @return {"code":1,"data":null,"msg":"成功"}
 	* @remark 这里是备注信息
 	* @number 99
 	*/
@@ -193,7 +201,15 @@ public class TransactionController{
 	* @description 发布者我的房源已锁定中调用
 	* @method get
 	* @url /trans-service/getIssuerTransaction
-	* @return {"code":1,"data":{},"msg":"成功"}
+	* @return {"code":1,"data":{"id":1,"houseid":2,"iuid":2,"ruid":1,"state":2,"createtime":1549952061000,"amount":3600,"order":null},"msg":"成功"}
+	* @return_param id long 交易id，后续接口中的tid
+	* @return_param houseid long 房源id
+	* @return_param iuid int 发布者用户id
+	* @return_param ruid int 求助者用户id
+	* @return_param state int 交易状态，1为新建未付款，2为求租者已付款确认，3为发布者已确认，4为求租者已经确认交易完成，5为交易已取消，6为交易无效
+	* @return_param createtime int 交易创建时间，距离1970年1月1日的毫秒数
+	* @return_param amount int 交易涉及的金额，单位为分
+	* @return_param order jsonObject 订单对象，若不为null则表示需要走支付流程
 	* @remark 这里是备注信息
 	* @number 99
 	*/
@@ -223,7 +239,15 @@ public class TransactionController{
 	* @description 在我的意向已锁定的交易中调用
 	* @method get
 	* @url /transaction-service/getRenderTransaction
-	* @return {"code":1,"data":{},"msg":"成功"}
+	* @return {"code":1,"data":{"id":1,"houseid":2,"iuid":2,"ruid":1,"state":2,"createtime":1549952061000,"amount":3600,"order":null},"msg":"成功"}
+	* @return_param id long 交易id，后续接口中的tid
+	* @return_param houseid long 房源id
+	* @return_param iuid int 发布者用户id
+	* @return_param ruid int 求助者用户id
+	* @return_param state int 交易状态，1为新建未付款，2为求租者已付款确认，3为发布者已确认，4为求租者已经确认交易完成，5为交易已取消，6为交易无效
+	* @return_param createtime int 交易创建时间，距离1970年1月1日的毫秒数
+	* @return_param amount int 交易涉及的金额，单位为分
+	* @return_param order jsonObject 订单对象，若不为null则表示需要走支付流程
 	* @remark 这里是备注信息
 	* @number 99
 	*/

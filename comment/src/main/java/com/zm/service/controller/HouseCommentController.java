@@ -42,9 +42,9 @@ public class HouseCommentController{
 	* @url /comment-service/house/commit
 	* @param reserveid 必选 Long 预约id  
 	* @param content 必选 string 评论内容  
-	* @param imglist 必选 string 图片列表[]的JSON对象
-	* @param taglist 必选 string tag列表[]的JSON对象
-	* @return {"code":1,"data":{},"msg":"成功"}
+	* @param imglist 必选 string 图片url的数组
+	* @param taglist 必选 string tag列表，jsonArray的字符串[{"tagid":1,"bad":0,"good":1},{"tagid":3,"bad":0,"good":1}]
+	* @return {"code":1,"data":null,"msg":"成功"}
 	* @remark 这里是备注信息
 	* @number 99
 	*/
@@ -87,15 +87,21 @@ public class HouseCommentController{
 	* @method post
 	* @url /comment-service/house/getLastComment
 	* @param houseid 必选 Long 房源id  
-	* @return {"code":1,"data":{},"msg":"成功"}
+	* @return {"code":1,"data":{"id":2,"houseid":2,"uid":1,"content":"装修不错，离地铁也算近，就是小区吵了点","imglist":"[http://zumeng.com/1.png,http://zumeng.com/2.png]","createtime":1549956624000},"msg":"成功"}
+	* @return_param id long 评论id
+	* @return_param houseid long 房源id
+	* @return_param uid int 评论人id
+	* @return_param content string 评论内容
+	* @return_param imglist string 评论图片url数组
+	* @return_param createtime int 创建时间，距离1970年1月1日的毫秒数
 	* @remark 这里是备注信息
 	* @number 99
 	*/
 	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
 	@RequestMapping(value = "/getLastComment", method = RequestMethod.GET)
 	@ApiOperation(value = "获取房源评论", notes = "获取房源评论")
-	public Response getComments(
-			@ApiParam(name = "houseid", value = "房源id") @RequestParam(name = "houseid") String houseid,
+	public Response getLastComment(
+			@ApiParam(name = "houseid", value = "房源id") @RequestParam(name = "houseid") Long houseid,
 			HttpServletRequest request, HttpServletResponse response) {
 		try{
 			HComment ret = commentService.getLastComment(houseid);
@@ -118,7 +124,13 @@ public class HouseCommentController{
 	* @param houseid 必选 Long 预约id  
 	* @param pageIndex 必选 int 页码  
 	* @param pageSize 必选 int 每页最大数量
-	* @return {"code":1,"data":[{}],"msg":"成功"}
+	* @return {"code":1,"data":[{"id":2,"houseid":2,"uid":1,"content":"装修不错，离地铁也算近，就是小区吵了点","imglist":"[http://zumeng.com/1.png,http://zumeng.com/2.png]","createtime":1549956624000}],"msg":"成功"}
+	* @return_param id long 评论id
+	* @return_param houseid long 房源id
+	* @return_param uid int 评论人id
+	* @return_param content string 评论内容
+	* @return_param imglist string 评论图片url数组
+	* @return_param createtime int 创建时间，距离1970年1月1日的毫秒数
 	* @remark 这里是备注信息
 	* @number 99
 	*/

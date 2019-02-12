@@ -46,7 +46,7 @@ public class PaymentController{
 	* @description 获取我的交易
 	* @method get
 	* @url /payment-service/getMyOrders
-	* @param pageIndex 必选 int 页码  
+	* @param pageIndex 必选 int 页码1-n  
 	* @param pageSize 必选 int 每页最大数量  
 	* @return {"code":1,"data":[{}],"msg":"成功"}
 	* @remark 这里是备注信息
@@ -83,7 +83,12 @@ public class PaymentController{
 	* @param openid 必选 Long wx用户id 
 	* @param orderid 必选 Long 订单编号  
 	* @param payWay 必选 string 支付渠道:"WX_XCX"  
-	* @return {"code":1,"data":{},"msg":"成功"}
+	* @return {"code":1,"data":{"paySign":"fadff123123","signType":"1","prepay_id":"20190212321323131113300","nonceStr":"123123ff","timeStamp":"20190212131231"},"msg":"成功"}
+	* @return_param paySign string 支付签名
+	* @return_param signType string 签名类型
+	* @return_param prepay_id string 支付渠道订单号
+	* @return_param nonceStr string 随机数
+	* @return_param timeStamp string 时间戳
 	* @remark 这里是备注信息
 	* @number 99
 	*/

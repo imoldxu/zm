@@ -33,7 +33,7 @@ public class UserCommentService {
 		Example ex = new Example(UComment.class);
 		ex.createCriteria().andEqualTo("targetuid", targetUid);
 		ex.setOrderByClause("id desc");
-		RowBounds rowBounds = new RowBounds(pageIndex*pageSize, pageSize);
+		RowBounds rowBounds = new RowBounds((pageIndex-1)*pageSize, pageSize);
 		List<UComment> ret = ucMapper.selectByExampleAndRowBounds(ex, rowBounds);
 		
 		return ret;

@@ -39,7 +39,7 @@ public class UserCommentController{
 	* @url /comment-service/user/commit
 	* @param targetUid 必选 Integer 评论对象用户id  
 	* @param content 必选 string 评论内容  
-	* @return {"code":1,"data":{},"msg":"成功"}
+	* @return {"code":1,"data":null,"msg":"成功"}
 	* @remark 这里是备注信息
 	* @number 99
 	*/
@@ -73,9 +73,15 @@ public class UserCommentController{
 	* @method post
 	* @url /comment-service/user/getComments
 	* @param targetUid 必选 Integer 评论对象用户id  
-	* @param pageIndex 必选 int 页码 
+	* @param pageIndex 必选 int 页码 1-n
 	* @param pageSize 必选 int 每页最大数量  
-	* @return {"code":1,"data":{},"msg":"成功"}
+	* @return {"code":1,"data":[{"id":1,"targetuid":2,"uid":1,"content":"好人啊","imglist":null,"createtime":1549954256000}],"msg":"成功"}
+	* @return_param id long 评论id
+	* @return_param targetuid int 被评论用户的id
+	* @return_param uid int 评论者id
+	* @return_param content string 评论内容
+	* @return_param imglist string 评论的图片列表数组
+	* @return_param createtime int 评论创建时间，距离1970年1月1日的毫秒数
 	* @remark 这里是备注信息
 	* @number 99
 	*/

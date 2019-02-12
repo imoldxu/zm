@@ -27,6 +27,19 @@ public class TagController{
 	@Autowired
 	TagService tagService;
 	
+	/**
+	* showdoc
+	* @catalog 接口文档/评论相关
+	* @title 获取所有的tag标签
+	* @description 获取所有的tag标签
+	* @method get
+	* @url /comment-service/tag/getTags
+	* @return {"code":1,"data":[{"id":1,"name":"有车位"},{"id":2,"name":"有电梯"}],"msg":"成功"}
+	* @return_param id int 标签id
+	* @return_param name string 标签名称
+	* @remark 这里是备注信息
+	* @number 99
+	*/
 	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
 	@RequestMapping(value = "/getTags", method = RequestMethod.GET)
 	@ApiOperation(value = "获取全部的tag", notes = "获取全部的tag")

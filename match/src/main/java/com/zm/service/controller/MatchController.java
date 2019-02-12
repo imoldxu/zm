@@ -40,6 +40,21 @@ public class MatchController{
 	* @url /match-service/commitMyCondition
 	* @param conditionStr 必选 string condition的JSON字符串{"type":1,"min":150000,"max":200000,"tip":40000,"room":2,"place":"世豪广场","longitude":104.05072,"latitude":30.552,"indate":"2018-11-14","tags":"[1,4,8]"}  
 	* @return {"code":1,"data":{"id":1,"uid":1,"type":1,"min":150000,"max":200000,"tip":40000,"room":2,"place":"世豪广场","longitude":104.05072,"latitude":30.552,"indate":1542124800000,"createtime":1542096209000,"isnotify":0,"tags":"[1,4,8]","state":1},"msg":"成功"}
+	* @return_param id long 求租条件id,后续的conditionid
+	* @return_param uid int 求租者用户id
+	* @return_param type int 求租类型，1为整租，2为合租
+	* @return_param min int 可接受每月房租最低限额，单位为分
+	* @return_param max int 可接受每月房租最高限额，单位为分
+	* @return_param tip int 可接受的中介费限额，单位为分
+	* @return_param room int 需要的房间数量
+	* @return_param place string 求租期望的位置中心
+	* @return_param longitude double 求租期望位置的经度
+	* @return_param latitude double 求租期望位置的维度
+	* @return_param indate int 期望入住的时间，距离1970年1月1日的毫秒数
+	* @return_param createtime int 求租条件发布的时间，距离1970年1月1日的毫秒数
+	* @return_param isnotify int 是否接受房源推送，1为支持，0为不支持
+	* @return_param tags string 求租的标签id列表
+	* @return_param state int 求租条件的状态，1为有效，0为无效
 	* @remark 这里是备注信息
 	* @number 99
 	*/
@@ -111,6 +126,21 @@ public class MatchController{
 	* @method get
 	* @url /match-service/getMyCondition
 	* @return {"code":1,"data":{"id":1,"uid":1,"type":1,"min":150000,"max":200000,"tip":40000,"room":2,"place":"世豪广场","longitude":104.05072,"latitude":30.552,"indate":1542124800000,"createtime":1542096209000,"isnotify":0,"tags":"[1,4,8]","state":1},"msg":"成功"}
+	* @return_param id long 求租条件id,后续的conditionid
+	* @return_param uid int 求租者用户id
+	* @return_param type int 求租类型，1为整租，2为合租
+	* @return_param min int 可接受每月房租最低限额，单位为分
+	* @return_param max int 可接受每月房租最高限额，单位为分
+	* @return_param tip int 可接受的中介费限额，单位为分
+	* @return_param room int 需要的房间数量
+	* @return_param place string 求租期望的位置中心
+	* @return_param longitude double 求租期望位置的经度
+	* @return_param latitude double 求租期望位置的维度
+	* @return_param indate int 期望入住的时间，距离1970年1月1日的毫秒数
+	* @return_param createtime int 求租条件发布的时间，距离1970年1月1日的毫秒数
+	* @return_param isnotify int 是否接受房源推送，1为支持，0为不支持
+	* @return_param tags string 求租的标签id列表
+	* @return_param state int 求租条件的状态，1为有效，0为无效
 	* @remark 这里是备注信息
 	* @number 99
 	*/
@@ -142,6 +172,21 @@ public class MatchController{
 	* @url /match-service/modifyCondition
 	* @param conditionStr 必选 string condition对象JSON字符串{"id":1,"uid":1,"type":1,"min":150000,"max":200000,"tip":40000,"room":2,"place":"世豪广场","longitude":104.05072,"latitude":30.552,"indate":1542124800000,"createtime":1542096209000,"isnotify":0,"tags":"[1,4,8]","state":1}
 	* @return {"code":1,"data":{"id":1,"uid":1,"type":1,"min":150000,"max":200000,"tip":40000,"room":2,"place":"世豪广场","longitude":104.05072,"latitude":30.552,"indate":1542124800000,"createtime":1542096209000,"isnotify":0,"tags":"[1,4,8]","state":1},"msg":"成功"}
+	* @return_param id long 求租条件id,后续的conditionid
+	* @return_param uid int 求租者用户id
+	* @return_param type int 求租类型，1为整租，2为合租
+	* @return_param min int 可接受每月房租最低限额，单位为分
+	* @return_param max int 可接受每月房租最高限额，单位为分
+	* @return_param tip int 可接受的中介费限额，单位为分
+	* @return_param room int 需要的房间数量
+	* @return_param place string 求租期望的位置中心
+	* @return_param longitude double 求租期望位置的经度
+	* @return_param latitude double 求租期望位置的维度
+	* @return_param indate int 期望入住的时间，距离1970年1月1日的毫秒数
+	* @return_param createtime int 求租条件发布的时间，距离1970年1月1日的毫秒数
+	* @return_param isnotify int 是否接受房源推送，1为支持，0为不支持
+	* @return_param tags string 求租的标签id列表
+	* @return_param state int 求租条件的状态，1为有效，0为无效
 	* @remark 这里是备注信息
 	* @number 99
 	*/
