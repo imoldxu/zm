@@ -35,8 +35,8 @@ public class WxUtil {
 	public static final String app_appid = "wxc342d56bf6ebb44e";  //乐游
 	public static final String app_secret = "3557c60cb7981b2bd5165fe75696b584";
 
-	public static final String littleapp_appid = "wxd8562610a92fc200";  //租盟
-	public static final String littleapp_secret = "5fe6627ec1ed01d55dc3443672824210";
+	public static final String littleapp_appid = "wx27274648aadcf410";  //租盟
+	public static final String littleapp_secret = "d0e80bf423848e0ebb647998e2228d63";
 	
 	
 	public static Map<String, String> sign(String url) {
