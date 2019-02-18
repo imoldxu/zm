@@ -35,7 +35,12 @@ public class AccountController {
 	* @description 获取我的账户的余额
 	* @method get
 	* @url /user-service/account/getMyAccount
-	* @return {"code":1,"data":{},"msg":"成功"}
+	* @return {"code":1,"data":{"id":1,"uid":1,"coin":998,"cash":96400,"lockedcash":3600},"msg":"成功"}
+	* @return_param id int 账户id
+	* @return_param uid int 归属用户id
+	* @return_param coin int 看房币，单位是个
+	* @return_param cash int 账户的余额，单位是分
+	* @return_param lockedcash int 账户锁定的余额，因交易被锁定，单位是分
 	* @remark 这里是备注信息
 	* @number 99
 	*/
@@ -66,7 +71,7 @@ public class AccountController {
 	* @description 提取中介费到银行
 	* @method post
 	* @url /user-service/account/withdrawCash
-	* @param amount 必选 string 提取的金额 
+	* @param amount 必选 string 提取的金额 ，单位是分
 	* @return {"code":1,"data":null,"msg":"成功"}
 	* @remark 这里是备注信息
 	* @number 99

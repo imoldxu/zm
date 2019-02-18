@@ -48,7 +48,19 @@ public class PaymentController{
 	* @url /payment-service/getMyOrders
 	* @param pageIndex 必选 int 页码1-n  
 	* @param pageSize 必选 int 每页最大数量  
-	* @return {"code":1,"data":[{}],"msg":"成功"}
+	* @return {"code":1,"data":[{"id":1,"sn":"201902180001321312","uid":1,"code":1,"payway":"WX_XCX","paysn":"12321312312","amount":3000,"createtime":1550467481000,"invalidtime":1550467785000,"payovertime":1550467492000,"info":"2321","state":3}],"msg":"成功"}
+	* @return_param id string 订单id
+	* @return_param sn string 订单序列号
+	* @return_param uid int   订单归属用户id
+	* @return_param code int  订单交易码，1为定金交易，2为预约交易
+	* @return_param payway string 支付渠道
+	* @return_param paysn string 支付渠道订单号
+	* @return_param amount int 订单支付金额
+	* @return_param info string 订单交易关联的交易id
+	* @return_param createtime int 订单的创建时间戳
+	* @return_param invalidtime int 订单的失效时间戳
+	* @return_param payovertime int 订单的支付成功时间戳
+	* @return_param state int 订单的状态，1为新建、2为支付中、3为支付成功，4为已失效
 	* @remark 这里是备注信息
 	* @number 99
 	*/

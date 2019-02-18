@@ -45,7 +45,7 @@ public class OrderService {
 		Example ex = new Example(Order.class);
 		ex.createCriteria().andEqualTo("uid", uid);
 		ex.setOrderByClause("id desc");
-		RowBounds rowBounds = new RowBounds(pageIndex*pageSize, pageSize);
+		RowBounds rowBounds = new RowBounds((pageIndex-1)*pageSize, pageSize);
 		List<Order> orderList = orderMapper.selectByExampleAndRowBounds(ex, rowBounds);
 		return orderList;
 	}
@@ -71,8 +71,11 @@ public class OrderService {
 		}
 		
 		if(payWay.equals("WX_XCX")){
-			
+			order.setPayway(payWay);
 			WXPayCharge charge = MyWxPayUtil.getPayCharge(openid, "租盟-订金", "", order.getSn(), order.getAmount(), ip);
+			order.setPaysn(charge.getPrepay_id());
+			order.setState(Order.STATE_PAYING);
+			orderMapper.updateByPrimaryKey(order);
 			return charge;
 		}else{
 			throw new HandleException(ErrorCode.ARG_ERROR, "不支持的支付方式");

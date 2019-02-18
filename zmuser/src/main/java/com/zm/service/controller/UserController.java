@@ -42,7 +42,16 @@ public class UserController{
 	* @param signature 必选 string 签名
 	* @param encryptedData 必选 string 加密数据
 	* @param iv 必选 string 偏移向量 
-	* @return {"code":1,"data":{"id":1,"nick":"小明","avatar":"http:/www.163.com/1.png","name":"徐明","sex":null,"idcardtype":1,"idcardnum":"511102198202250032","birthday":null,"phone":"13880605659","password": "123456","wxunionid":"1231231231","createtime":31366000,"lastlogintime":1542012171000,"age":0,"subscribe":0},"msg":"成功"}
+	* @return {"code":1,"data":{"id":1,"nick":"小明","avatar":"http:/www.163.com/1.png","name":"徐明","sex":null,"idcardtype":1,"idcardnum":"511102198202250032","birthday":null,"phone":"13880605659","password": "123456","wxunionid":"1231231231","createtime":31366000,"lastlogintime":1542012171000,"age":0,"subscribe":0,"sessionID":"MGE5MTdiMjItMjUwMi00ZWFlLTk4OWYtZmE5MmRkZDZmYjVh"},"msg":"成功"}
+	* @return_param id int 用户 id
+	* @return_param nick string 用户微信昵称
+	* @return_param avatar string 用户头像的url
+	* @return_param name string 用户姓名,可根据此字段是否为null判断是否用户需要进行实名认证
+	* @return_param idcardtype int 证件类型,1为身份证
+	* @return_param idcardnum string 证件号
+	* @return_param phone string 用户手机号
+	* @return_param subscribe int 用户是否关注了公众号,0表示未关注,1表示已关注 
+	* @return_param sessionID string sessionID
 	* @remark 这里是备注信息
 	* @number 99
 	*/
@@ -108,7 +117,7 @@ public class UserController{
 	* @method get
 	* @url /user-service/getVerificationCode
 	* @param phone 必选 string 手机号  
-	* @return {"code":1,"data":{null},"msg":"成功"}
+	* @return {"code":1,"data":null,"msg":"成功"}
 	* @remark 这里是备注信息
 	* @number 99
 	*/
@@ -144,7 +153,7 @@ public class UserController{
 	* @param idcardtype 必选 int 证件类型:1、身份证
 	* @param idcardnum 必选 string 证件号码
 	* @param code 必选 string 验证码 
-	* @return {"code":1,"data":{},"msg":"成功"}
+	* @return {"code":1,"data":null,"msg":"成功"}
 	* @remark 这里是备注信息
 	* @number 99
 	*/

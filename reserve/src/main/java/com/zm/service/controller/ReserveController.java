@@ -38,7 +38,7 @@ public class ReserveController{
 	* @method post
 	* @url /reserve-service/create
 	* @param houseid 必选 Long 房源id
-	* @param datetime 必选 string 预约时间,如："2018-12-11 12:00" 
+	* @param datetime 必选 long 距离1970年1月1日的时间戳 
 	* @return {"code":1,"data":{"id":10,"houseid":2,"house":{"id":2,"name":"世豪瑞丽","imglist":"[/1.png]","createtime":1545725854000,"area":72,"parlor":1,"room":2,"toilet":1,"amount":250000,"distance":0,"uid":2,"phone":"18866661234","tags":"[\"有车位\",\"精装修\",\"有阳台\"]","state":1},"order":null,"time":1544500800000,"iuid":2,"ruid":1,"ruser":null,"istate":1,"rstate":2,"state":1,"iscomment":0,"createtime":1549945987274},"msg":"成功"}
 	* @return_param id long 预约id，后续的reserveid
 	* @return_param houseid long 房源id
@@ -61,7 +61,7 @@ public class ReserveController{
 	@ApiOperation(value = "创建预约", notes = "创建预约")
 	public Response create(
 			@ApiParam(name = "houseid", value = "房源id") @RequestParam(name = "houseid") Long houseid,
-			@ApiParam(name = "datetime", value = "预约时间") @RequestParam(name = "datetime") String datetime,
+			@ApiParam(name = "datetime", value = "预约时间") @RequestParam(name = "datetime") Long datetime,
 			HttpServletRequest request, HttpServletResponse response) {
 		try{
 			int uid = SessionUtil.getUserId(request);
@@ -130,7 +130,7 @@ public class ReserveController{
 	* @method post
 	* @url /reserve-service/modify
 	* @param reserveid 必选 string 预约id  
-	* @param datetime 必选 string 预约时间  
+	* @param datetime 必选 long 预约时间，距离1970年1月1日的时间戳  
 	* @return {"code":1,"data":{"id":10,"houseid":2,"house":null,"order":null,"time":1544500800000,"iuid":2,"ruid":1,"ruser":null,"istate":1,"rstate":2,"state":1,"iscomment":0,"createtime":1549945987274},"msg":"成功"}
 	* @return_param id long 预约id，后续的reserveid
 	* @return_param houseid long 房源id
@@ -153,7 +153,7 @@ public class ReserveController{
 	@ApiOperation(value = "修改预约", notes = "修改预约")
 	public Response modify(
 			@ApiParam(name = "reserveid", value = "预约id") @RequestParam(name = "reserveid") Long reserveid,
-			@ApiParam(name = "datetime", value = "预约时间") @RequestParam(name = "datetime") String datetime,
+			@ApiParam(name = "datetime", value = "预约时间") @RequestParam(name = "datetime") Long datetime,
 			HttpServletRequest request, HttpServletResponse response) {
 		try{
 			int uid = SessionUtil.getUserId(request);

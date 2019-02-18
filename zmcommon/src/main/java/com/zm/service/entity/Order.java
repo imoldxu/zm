@@ -84,7 +84,7 @@ public class Order {
 	public static final int STATE_NEW = 1;
 	public static final int STATE_PAYING = 2;
 	public static final int STATE_COMPELTE = 3;
-	public static final Integer STATE_INVALID = 4;
+	public static final int STATE_INVALID = 4;
 	
 	@Column(name = "state")
 	@ColumnType(jdbcType = JdbcType.INTEGER)

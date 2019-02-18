@@ -44,7 +44,7 @@ public class ReserveService {
 	OrderClient orderClient;
 	
 	@Transactional
-	public Reserve create(int uid, Long houseid, String datetime) {
+	public Reserve create(int uid, Long houseid, Long datetime) {
 		
 		Response resp = houseClient.getSimpleHouseById(houseid);
 		SimpleHouse house = null;
@@ -70,12 +70,12 @@ public class ReserveService {
 		reserve.setRuid(uid);
 		reserve.setRstate(Reserve.USER_STATE_CONFIRM);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		Date d;
-		try {
-			d = sdf.parse(datetime);
-		} catch (ParseException e) {
-			throw new HandleException(ErrorCode.ARG_ERROR, "日期格式错误");
-		}
+		Date d = new Date(datetime);
+//		try {
+//			d = sdf.parse(datetime);
+//		} catch (ParseException e) {
+//			throw new HandleException(ErrorCode.ARG_ERROR, "日期格式错误");
+//		}
 		reserve.setTime(d);
 		reserve.setState(Reserve.STATE_NEW);
 		reserve.setCreatetime(new Date());
@@ -130,7 +130,7 @@ public class ReserveService {
 		return reserve;
 	}
 
-	public Reserve modify(Long reserveid, int uid, String datetime) {
+	public Reserve modify(Long reserveid, int uid, Long datetime) {
 		Reserve reserve = reserveMapper.selectByPrimaryKey(reserveid);
 		if(reserve == null){
 			throw new HandleException(ErrorCode.ARG_ERROR, "参数错误");
@@ -154,12 +154,12 @@ public class ReserveService {
 			throw new HandleException(ErrorCode.DOMAIN_ERROR, "你无权操作此数据");
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		Date d;
-		try {
-			d = sdf.parse(datetime);
-		} catch (ParseException e) {
-			throw new HandleException(ErrorCode.ARG_ERROR, "日期格式错误");
-		}
+		Date d = new Date(datetime);
+//		try {
+//			d = sdf.parse(datetime);
+//		} catch (ParseException e) {
+//			throw new HandleException(ErrorCode.ARG_ERROR, "日期格式错误");
+//		}
 		reserve.setTime(d);
 		reserveMapper.updateByPrimaryKey(reserve);
 		return reserve;
