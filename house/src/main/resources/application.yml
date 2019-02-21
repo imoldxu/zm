@@ -1,7 +1,7 @@
 server:
   port : 9302
   tomcat:
-    max-threads: 30
+    max-threads: 20
     max-http-header-size: 8192  
   
 spring:
