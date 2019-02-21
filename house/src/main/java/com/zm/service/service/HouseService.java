@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zm.service.context.ComplainState;
 import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
 import com.zm.service.context.Response;
@@ -40,6 +41,8 @@ public class HouseService {
 	TagClient tagClient;
 	@Autowired
 	UserClient userClient;
+	@Autowired
+	
 	
 
 	public House issue(Integer uid, House house) {
@@ -132,6 +135,14 @@ public class HouseService {
 	    ObjectMapper mapper = new ObjectMapper();
 	    List<HouseTag> list = mapper.convertValue(tagClient.getHouseTags(houseid).fetchOKData(), new TypeReference<List<HouseTag>>() {});
 	    house.setTagList(list);
+	    
+	    User user = mapper.convertValue(userClient.getUser(house.getUid()).fetchOKData(), User.class);
+	    house.setUserAvatar(user.getAvatar());
+	    house.setUserNick(user.getNick());
+	    
+	    ComplainState state = mapper.convertValue(tagClient.getUserCommentInfo(house.getUid()).fetchOKData(), ComplainState.class);
+	    house.setUserComplainNum(state.getComplainNum());
+	    house.setUserbeComplainedNum(state.getBeComplainedNum());
 	    
 		return house;
 	}

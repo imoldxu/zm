@@ -19,4 +19,7 @@ public interface TagClient {
 	@RequestMapping(value = "/internal/getHouseTags", method = RequestMethod.GET)
 	public Response getHouseTags(@RequestParam(name="houseid") long houseid);
 	
+	@RequestMapping(value = "/internal/getUserCommentInfo", method = RequestMethod.GET)
+	public Response getUserCommentInfo(@RequestParam(name="uid") int uid);
+	
 }

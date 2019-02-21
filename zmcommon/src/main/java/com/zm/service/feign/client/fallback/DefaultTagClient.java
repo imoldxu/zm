@@ -19,4 +19,9 @@ public class DefaultTagClient implements TagClient{
 		return Response.Error(ErrorCode.MODULE_ERROR, "评论服务调用失败");
 	}
 
+	@Override
+	public Response getUserCommentInfo(int uid) {
+		return Response.Error(ErrorCode.MODULE_ERROR, "评论服务调用失败");
+	}
+
 }

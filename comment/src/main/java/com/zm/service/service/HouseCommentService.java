@@ -14,6 +14,7 @@ import com.zm.service.context.Response;
 import com.zm.service.context.TagComment;
 import com.zm.service.entity.HComment;
 import com.zm.service.entity.Reserve;
+import com.zm.service.entity.User;
 import com.zm.service.feign.client.ReserveClient;
 import com.zm.service.feign.client.UserClient;
 import com.zm.service.mapper.HouseCommentMapper;
@@ -71,7 +72,13 @@ public class HouseCommentService {
 		
 		RowBounds rowBounds = new RowBounds((pageIndex-1)*pageSize, pageSize);
 		List<HComment> comments = hCommentMapper.selectByExampleAndRowBounds(ex, rowBounds);
-		
+		for(HComment comment: comments) {
+			ObjectMapper mapper = new ObjectMapper();
+			User user = mapper.convertValue(userClient.getUser(comment.getUid()).fetchOKData(), User.class);
+			
+			comment.setUserNick(user.getNick());
+			comment.setUserAvatar(user.getAvatar());
+		}
 		return comments;
 	}
 
@@ -80,6 +87,13 @@ public class HouseCommentService {
 		ex.createCriteria().andEqualTo("houseid", houseid);
 		ex.setOrderByClause("id desc");
 		HComment comment = hCommentMapper.selectOneByExample(ex);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		User user = mapper.convertValue(userClient.getUser(comment.getUid()).fetchOKData(), User.class);
+		
+		comment.setUserNick(user.getNick());
+		comment.setUserAvatar(user.getAvatar());
+		
 		return comment;
 	}
 	

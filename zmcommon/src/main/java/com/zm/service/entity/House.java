@@ -28,6 +28,50 @@ public class House {
 	@ColumnType(jdbcType = JdbcType.INTEGER)
 	private Integer uid;//期
 	
+	@Transient
+	private String userNick;
+	
+	@Transient
+	private String userAvatar;
+	
+	@Transient
+	private int userbeComplainedNum;
+	
+	@Transient
+	private int userComplainNum;
+	
+	public int getUserbeComplainedNum() {
+		return userbeComplainedNum;
+	}
+
+	public void setUserbeComplainedNum(int userbeComplainedNum) {
+		this.userbeComplainedNum = userbeComplainedNum;
+	}
+
+	public int getUserComplainNum() {
+		return userComplainNum;
+	}
+
+	public void setUserComplainNum(int userComplainNum) {
+		this.userComplainNum = userComplainNum;
+	}
+
+	public String getUserNick() {
+		return userNick;
+	}
+
+	public void setUserNick(String userNick) {
+		this.userNick = userNick;
+	}
+
+	public String getUserAvatar() {
+		return userAvatar;
+	}
+
+	public void setUserAvatar(String userAvatar) {
+		this.userAvatar = userAvatar;
+	}
+
 	public Integer getUid() {
 		return uid;
 	}
@@ -52,9 +96,9 @@ public class House {
 	@ColumnType(jdbcType = JdbcType.VARCHAR)
 	private String num;//房号
 	
-	@Column(name = "issue")
-	@ColumnType(jdbcType = JdbcType.TINYINT)
-	private Integer issue;//期
+//	@Column(name = "issue")
+//	@ColumnType(jdbcType = JdbcType.TINYINT)
+//	private Integer issue;//期
 	
 	@Column(name = "parlor")
 	@ColumnType(jdbcType = JdbcType.TINYINT)
@@ -285,13 +329,13 @@ public class House {
 		this.num = num;
 	}
 
-	public Integer getIssue() {
-		return issue;
-	}
-
-	public void setIssue(Integer issue) {
-		this.issue = issue;
-	}
+//	public Integer getIssue() {
+//		return issue;
+//	}
+//
+//	public void setIssue(Integer issue) {
+//		this.issue = issue;
+//	}
 
 	public Integer getParlor() {
 		return parlor;

@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.ibatis.type.JdbcType;
 
@@ -29,6 +30,28 @@ public class UComment {
 	@ColumnType(jdbcType = JdbcType.INTEGER)
 	private Integer uid;
 	
+	@Transient
+	private String userNick;
+	
+	@Transient
+	private String userAvatar;
+	
+	public String getUserNick() {
+		return userNick;
+	}
+
+	public void setUserNick(String userNick) {
+		this.userNick = userNick;
+	}
+
+	public String getUserAvatar() {
+		return userAvatar;
+	}
+
+	public void setUserAvatar(String userAvatar) {
+		this.userAvatar = userAvatar;
+	}
+
 	@Column(name = "content")
 	@ColumnType(jdbcType = JdbcType.VARCHAR)
 	private String content;

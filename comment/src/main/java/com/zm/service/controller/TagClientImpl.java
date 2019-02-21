@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zm.service.context.ComplainState;
 import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
 import com.zm.service.context.Response;
 import com.zm.service.entity.HouseTag;
 import com.zm.service.feign.client.TagClient;
 import com.zm.service.service.HouseTagService;
+import com.zm.service.service.UserCommentService;
 import com.zm.service.utils.JSONUtils;
 
 import io.swagger.annotations.Api;
@@ -28,6 +30,8 @@ public class TagClientImpl implements TagClient{
 
 	@Autowired
 	HouseTagService houseTagService;
+	@Autowired
+	UserCommentService userCommentService;
 	
 	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
 	@RequestMapping(value = "/addHouseTags", method = RequestMethod.POST)
@@ -59,6 +63,21 @@ public class TagClientImpl implements TagClient{
 			List<HouseTag> list = houseTagService.getHouseTags(houseid);
 			
 			return Response.OK(list);
+		} catch(HandleException e){
+			return Response.Error(e.getErrorCode(), e.getMessage());
+		} catch (Exception e) {
+			return Response.SystemError();
+		}
+	}
+
+	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
+	@RequestMapping(value = "/getUserCommentInfo", method = RequestMethod.GET)
+	@ApiOperation(value = "获取用户评论状态", notes = "获取用户评论状态")
+	public Response getUserCommentInfo(int uid) {
+		try{
+			ComplainState state = userCommentService.getCommentState(uid);
+			
+			return Response.OK(state);
 		} catch(HandleException e){
 			return Response.Error(e.getErrorCode(), e.getMessage());
 		} catch (Exception e) {
