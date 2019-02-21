@@ -26,7 +26,7 @@ public class House {
 	
 	@Column(name = "uid")
 	@ColumnType(jdbcType = JdbcType.INTEGER)
-	private Integer uid;//期
+	private Integer uid;
 	
 	@Transient
 	private String userNick;
@@ -95,10 +95,6 @@ public class House {
 	@Column(name = "num")
 	@ColumnType(jdbcType = JdbcType.VARCHAR)
 	private String num;//房号
-	
-//	@Column(name = "issue")
-//	@ColumnType(jdbcType = JdbcType.TINYINT)
-//	private Integer issue;//期
 	
 	@Column(name = "parlor")
 	@ColumnType(jdbcType = JdbcType.TINYINT)
@@ -328,14 +324,6 @@ public class House {
 	public void setNum(String num) {
 		this.num = num;
 	}
-
-//	public Integer getIssue() {
-//		return issue;
-//	}
-//
-//	public void setIssue(Integer issue) {
-//		this.issue = issue;
-//	}
 
 	public Integer getParlor() {
 		return parlor;

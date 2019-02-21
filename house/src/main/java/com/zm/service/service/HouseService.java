@@ -1,6 +1,5 @@
 package com.zm.service.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,14 +14,11 @@ import com.zm.service.entity.SimpleHouse;
 import com.zm.service.entity.User;
 import com.zm.service.feign.client.TagClient;
 import com.zm.service.feign.client.UserClient;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zm.service.context.ComplainState;
 import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
-import com.zm.service.context.Response;
 import com.zm.service.mapper.HouseMapper;
 import com.zm.service.utils.DateUtils;
 import com.zm.service.utils.JSONUtils;
