@@ -25,7 +25,7 @@ public class DefaultReserveClient implements ReserveClient {
 	}
 
 	@Override
-	public Response close(Integer uid) {
+	public Response close(Integer uid, int type) {
 		return Response.Error(ErrorCode.MODULE_ERROR, "预约服务调用失败");
 	}
 

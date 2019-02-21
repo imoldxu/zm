@@ -63,7 +63,7 @@ public class TransactionService {
 		Response resp = houseClient.modifyState(trans.getHouseid(), House.STATE_LOCKED);
 		resp.fetchOKData();
 		//通知对方
-		msgClient.push(trans.getRuid(), Message.TYPE_NOTICE, "发布者取消了你的锁定");
+		msgClient.push(trans.getRuid(), Message.TYPE_TRASACTION_NOTICE, "发布者取消了你的锁定");
 	}
 
 	public void confirm(Integer uid, Long tid) {
@@ -207,7 +207,7 @@ public class TransactionService {
 			trans.setOrder(order);
 		}
 		//发送房源锁定消息
-		msgClient.push(reserve.getIuid(), Message.TYPE_NOTICE, "你发布的房源已有人预定");			
+		msgClient.push(reserve.getIuid(), Message.TYPE_TRASACTION_NOTICE, "你发布的房源已有人预定");			
 		
 		return trans;
 	}
@@ -247,6 +247,31 @@ public class TransactionService {
 		
 		//锁定订金
 		userClient.lockCash(trans.getRuid(), trans.getAmount(), "锁定订金");
+	}
+
+	public Boolean check(int uid, int type) {
+		List<Integer> validstatelist = new ArrayList<Integer>();
+		validstatelist.add(Transaction.STATE_NEW);
+		validstatelist.add(Transaction.STATE_R_CONFIRM);
+		validstatelist.add(Transaction.STATE_I_CONFIRM);
+		
+		if(type==1) {
+			Example ex = new Example(Transaction.class);
+			ex.createCriteria().andEqualTo("ruid", uid).andIn("state", validstatelist);
+			Transaction t = transMapper.selectOneByExample(ex);
+			if(t==null) {
+				return Boolean.FALSE;
+			}
+			return Boolean.TRUE;
+		}else{
+			Example ex = new Example(Transaction.class);
+			ex.createCriteria().andEqualTo("iuid", uid).andIn("state", validstatelist);
+			Transaction t = transMapper.selectOneByExample(ex);
+			if(t==null) {
+				return Boolean.FALSE;
+			}
+			return Boolean.TRUE;
+		}
 	}
 		
 }

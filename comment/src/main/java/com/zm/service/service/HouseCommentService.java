@@ -88,12 +88,13 @@ public class HouseCommentService {
 		ex.setOrderByClause("id desc");
 		HComment comment = hCommentMapper.selectOneByExample(ex);
 		
-		ObjectMapper mapper = new ObjectMapper();
-		User user = mapper.convertValue(userClient.getUser(comment.getUid()).fetchOKData(), User.class);
+		if(comment!=null) {
+			ObjectMapper mapper = new ObjectMapper();
+			User user = mapper.convertValue(userClient.getUser(comment.getUid()).fetchOKData(), User.class);
 		
-		comment.setUserNick(user.getNick());
-		comment.setUserAvatar(user.getAvatar());
-		
+			comment.setUserNick(user.getNick());
+			comment.setUserAvatar(user.getAvatar());
+		}
 		return comment;
 	}
 	

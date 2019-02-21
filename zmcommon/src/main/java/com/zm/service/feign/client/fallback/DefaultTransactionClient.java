@@ -19,4 +19,9 @@ public class DefaultTransactionClient implements TransactionClient {
 		return Response.Error(ErrorCode.MODULE_ERROR, "Transaction服务调用失败");
 	}
 
+	@Override
+	public Response check(int uid, int type) {
+		return Response.Error(ErrorCode.MODULE_ERROR, "Transaction服务调用失败");
+	}
+
 }

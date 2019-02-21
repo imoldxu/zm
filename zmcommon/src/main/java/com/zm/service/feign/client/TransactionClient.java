@@ -17,7 +17,10 @@ public interface TransactionClient {
 	@RequestMapping(value = "/internal/cancel", method = RequestMethod.POST)
 	Response cancel(@RequestParam(name = "transid") long transid);
 
-	@RequestMapping(value = "/internal/cancel", method = RequestMethod.POST)
+	@RequestMapping(value = "/internal/payOver", method = RequestMethod.POST)
 	Response payOver(@RequestParam(name = "transid") long transid);
+	
+	@RequestMapping(value = "/internal/check", method = RequestMethod.GET)
+	Response check(@RequestParam(name = "uid") int uid,@RequestParam(name = "type") int type);
 	
 }

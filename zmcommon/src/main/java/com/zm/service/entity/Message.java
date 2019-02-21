@@ -26,7 +26,9 @@ public class Message {
 	@ColumnType(jdbcType = JdbcType.INTEGER)
 	private Integer uid;//期
 
-	public static final int TYPE_NOTICE = 1;
+	public static final int TYPE_NORMAL_NOTICE = 1;
+	public static final int TYPE_RESERVE_NOTICE = 2;
+	public static final int TYPE_TRASACTION_NOTICE = 3;
 	
 	@Column(name = "type")
 	@ColumnType(jdbcType = JdbcType.TINYINT)
@@ -35,6 +37,9 @@ public class Message {
 	@Column(name = "content")
 	@ColumnType(jdbcType = JdbcType.VARCHAR)
 	private String content;
+	
+	public static final int STATE_UNREAD = 0;
+	public static final int STATE_READED = 1;
 	
 	@Column(name = "state")
 	@ColumnType(jdbcType = JdbcType.TINYINT)

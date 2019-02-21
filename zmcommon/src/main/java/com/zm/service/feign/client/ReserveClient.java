@@ -20,6 +20,6 @@ public interface ReserveClient {
 	@RequestMapping(value = "/internal/cancel", method = RequestMethod.POST)
 	Response cancel(@RequestParam(name="reserveid") Long reserveid);
 	
-	@RequestMapping(value = "/internal/cancel", method = RequestMethod.POST)
-	Response close(@RequestParam(name="uid") Integer uid);
+	@RequestMapping(value = "/internal/close", method = RequestMethod.POST)
+	Response close(@RequestParam(name="uid") Integer uid, @RequestParam(name="type")int type);
 }
