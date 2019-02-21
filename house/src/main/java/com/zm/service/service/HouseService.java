@@ -37,9 +37,6 @@ public class HouseService {
 	TagClient tagClient;
 	@Autowired
 	UserClient userClient;
-	@Autowired
-	
-	
 
 	public House issue(Integer uid, House house) {
 		//检查之前是否有发布过
