@@ -45,7 +45,7 @@ public class MessageService {
 		msg.setType(type);
 		msg.setUid(targetuid);
 		msg.setCreatetime(new Date());
-		msg.setState(1);
+		msg.setState(Message.STATE_UNREAD);
 		//TODO 推送到微信
 		
 		return;

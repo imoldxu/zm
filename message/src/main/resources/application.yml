@@ -21,7 +21,7 @@ spring:
       retry:
         enabled: true  #重试机制开关,默认false
   zipkin:
-    enable: true
+    enable: false
     baseUrl: http://127.0.0.1:9001
   sleuth:
     sampler:

@@ -74,11 +74,12 @@ public class ReserveClientImpl implements ReserveClient {
 	@Override
 	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
 	@RequestMapping(value = "/close", method = RequestMethod.POST)
-	@ApiOperation(value = "关闭所有预约", notes = "支付成功的处理")
-	public Response close(@ApiParam(name="uid", value="预约者uid") @RequestParam(name="uid")Integer uid) {
+	@ApiOperation(value = "关闭所有预约", notes = "")
+	public Response close(@ApiParam(name="uid", value="预约者uid") @RequestParam(name="uid")Integer uid,
+			@ApiParam(name="type", value="1为求租者，2为出租者") @RequestParam(name="type")int type) {
 		try{
-			Reserve reserve = reserveService.close(uid);
-			return Response.OK(reserve);
+			reserveService.close(uid, type);
+			return Response.OK(null);
 		}catch (HandleException e) {
 			return Response.Error(e.getErrorCode(), e.getMessage());
 		}catch (Exception e) {

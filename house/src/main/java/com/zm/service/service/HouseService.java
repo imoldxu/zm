@@ -6,13 +6,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.zm.service.entity.Condition;
 import com.zm.service.entity.House;
 import com.zm.service.entity.HouseTag;
 import com.zm.service.entity.SimpleHouse;
 import com.zm.service.entity.User;
+import com.zm.service.feign.client.ReserveClient;
 import com.zm.service.feign.client.TagClient;
+import com.zm.service.feign.client.TransactionClient;
 import com.zm.service.feign.client.UserClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +40,10 @@ public class HouseService {
 	TagClient tagClient;
 	@Autowired
 	UserClient userClient;
+	@Autowired
+	TransactionClient transClient;
+	@Autowired
+	ReserveClient reserveClient;
 
 	public House issue(Integer uid, House house) {
 		//检查之前是否有发布过
@@ -162,6 +169,7 @@ public class HouseService {
 		return house;
 	}
 
+	@Transactional
 	public void del(int uid, Long houseid) {
 		House house = houseMapper.selectByPrimaryKey(houseid);
 		if(house == null){
@@ -172,6 +180,16 @@ public class HouseService {
 		}
 		house.setState(House.STATE_INVALID);
 		houseMapper.updateByPrimaryKey(house);
+		
+		ObjectMapper mapper = new ObjectMapper();
+	    //检查是否有在进行的交易
+	    Boolean isTransing= mapper.convertValue(transClient.check(uid, 2).fetchOKData(), Boolean.class);
+	    if(isTransing == Boolean.FALSE) {
+	    	//取消所有预约
+	    	reserveClient.close(uid, 2);
+	    }else {
+	    	throw new HandleException(ErrorCode.NORMAL_ERROR, "仍有未完成的交易，不能取消");
+	    }
 	}
 
 	public House getHouseById(Long houseid) {

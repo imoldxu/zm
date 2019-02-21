@@ -1,21 +1,18 @@
 package com.zm.service.service;
 
-import java.io.IOException;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.zm.service.entity.Condition;
-import com.zm.service.entity.User;
+import com.zm.service.feign.client.ReserveClient;
+import com.zm.service.feign.client.TransactionClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
 import com.zm.service.mapper.ConditionMapper;
-import com.zm.service.utils.IdCardUtil;
-import com.zm.service.utils.RedissonUtil;
-import com.zm.service.utils.ValidDataUtil;
-import com.zm.service.utils.WxUtil;
 
 import tk.mybatis.mapper.entity.Example;
 
@@ -24,6 +21,10 @@ public class ConditionService {
 
 	@Autowired
 	ConditionMapper conditionMapper;
+	@Autowired
+	TransactionClient transClient;
+	@Autowired
+	ReserveClient reserveClient;
 	
 	public Condition create(Integer uid, Condition condition) {
 		
@@ -47,6 +48,7 @@ public class ConditionService {
 		return ret;
 	}
 
+	@Transactional
 	public void del(Integer uid, Long conditionid) {
 		// TODO 检查权限
 		Condition condition = conditionMapper.selectByPrimaryKey(conditionid);
@@ -60,6 +62,17 @@ public class ConditionService {
 		condition.setState(Condition.STATE_INVALID);
 		
 	    conditionMapper.updateByPrimaryKey(condition);
+	    
+	    ObjectMapper mapper = new ObjectMapper();
+	    //TODO检查是否有在进行的交易
+	    Boolean isTransing= mapper.convertValue(transClient.check(uid, 1).fetchOKData(), Boolean.class);
+	    if(isTransing == Boolean.FALSE) {
+	    	//TODO取消所有预约
+	    	reserveClient.close(uid, 1);
+	    }else {
+	    	throw new HandleException(ErrorCode.NORMAL_ERROR, "仍有未完成的交易，不能取消");
+	    }
+	    
 	}
 
 	public Condition modifyCondition(Integer uid, Condition condition) {

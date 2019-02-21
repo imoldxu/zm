@@ -117,12 +117,12 @@ public class ReserveService {
 			reserve.setIstate(Reserve.USER_STATE_CONFIRM);
 			//TODO:通知对方
 			Integer ruid = reserve.getRuid();
-			msgClient.push(ruid, Message.TYPE_NOTICE, "预约时间已被确认");
+			msgClient.push(ruid, Message.TYPE_RESERVE_NOTICE, "预约时间已被确认");
 		}else if(reserve.getRuid() == uid){
 			reserve.setRstate(Reserve.USER_STATE_CONFIRM);
 			//TODO:通知对方
 			Integer iuid = reserve.getIuid();
-			msgClient.push(iuid, Message.TYPE_NOTICE, "预约时间已被确认");
+			msgClient.push(iuid, Message.TYPE_RESERVE_NOTICE, "预约时间已被确认");
 		}else{
 			throw new HandleException(ErrorCode.DOMAIN_ERROR, "你无权操作此数据");
 		}
@@ -143,13 +143,13 @@ public class ReserveService {
 			reserve.setIstate(Reserve.USER_STATE_CONFIRM);
 			reserve.setRstate(Reserve.USER_STATE_UNCONFIRM);
 			//TODO:通知对方
-			msgClient.push(reserve.getRuid(), Message.TYPE_NOTICE, "预约时间已被修改");
+			msgClient.push(reserve.getRuid(), Message.TYPE_RESERVE_NOTICE, "预约时间已被修改");
 			
 		}else if(reserve.getRuid() == uid){
 			reserve.setRstate(Reserve.USER_STATE_CONFIRM);
 			reserve.setIstate(Reserve.USER_STATE_UNCONFIRM);
 			//TODO:通知对方
-			msgClient.push(reserve.getIuid(), Message.TYPE_NOTICE, "预约时间已被修改");
+			msgClient.push(reserve.getIuid(), Message.TYPE_RESERVE_NOTICE, "预约时间已被修改");
 		}else{
 			throw new HandleException(ErrorCode.DOMAIN_ERROR, "你无权操作此数据");
 		}
@@ -295,9 +295,23 @@ public class ReserveService {
 		return null;
 	}
 
-	public Reserve close(Integer uid) {
-		// TODO Auto-generated method stub
-		return null;
+	public void close(Integer uid, int type) {
+		if(1==type) {
+			Example ex = new Example(Reserve.class);
+			ex.createCriteria().andEqualTo("ruid", uid).andEqualTo("state", Reserve.STATE_VALID);
+			Reserve r = new Reserve();
+			r.setState(Reserve.STATE_CANCEL);
+			reserveMapper.updateByExampleSelective(r, ex);
+		}else {
+			Example ex = new Example(Reserve.class);
+			ex.createCriteria().andEqualTo("iuid", uid).andEqualTo("state", Reserve.STATE_VALID);
+			List<Reserve> rlist = reserveMapper.selectByExample(ex);
+			for(Reserve r:rlist) {
+				r.setState(Reserve.STATE_CANCEL);
+				userClient.addCoin(r.getRuid(), 2, "发布者取消预约退还币");
+				reserveMapper.updateByPrimaryKey(r);
+			}
+		}
 	}
 	
 }
