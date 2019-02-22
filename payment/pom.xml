@@ -152,6 +152,7 @@
                     <include>**/application*.yml</include>
                     <include>**/application*.yaml</include>
                     <include>**/application*.properties</include>
+                    <include>**/*.p12</include>
                     <include>**/*.xml</include>
                     <include>**/readme*</include>
                 </includes>
@@ -170,6 +171,15 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<!-- 过滤后缀为pem、pfx的证书文件 -->
+					<nonFilteredFileExtensions>
+						<nonFilteredFileExtension>pem</nonFilteredFileExtension>
+						<nonFilteredFileExtension>pfx</nonFilteredFileExtension>
+						<nonFilteredFileExtension>p12</nonFilteredFileExtension>
+					</nonFilteredFileExtensions>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

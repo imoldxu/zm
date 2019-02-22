@@ -5,22 +5,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import org.springframework.util.ResourceUtils;
+
 import com.github.wxpay.sdk.IWXPayDomain;
 import com.github.wxpay.sdk.WXPayConfig;
 import com.github.wxpay.sdk.WXPayConstants;
 
 public class MyWxPayConfig extends WXPayConfig{
 
-	private static final String appid = "";
-	private static final String merchantid = "";
-	private static final String merchant_secret = "";
-	private static final String certPath = "";
+	private static final String appid = "wx27274648aadcf410";
+	private static final String merchantid = "1525781591";
+	private static final String merchant_secret = "fjlsjdlfp28301231j203812031jp203";
+	private static final String certPath = "classpath:apiclient_cert.p12";
 	private byte[] certData = null;
 	
 	public MyWxPayConfig() throws Exception{
 		if(!certPath.isEmpty()){
-			File file = new File(certPath);
-	    	InputStream certStream = new FileInputStream(certPath);
+			File file = ResourceUtils.getFile(certPath);
+	    	InputStream certStream = new FileInputStream(file);
 	    	certData = new byte[(int) file.length()];
 	    	certStream.read(certData);
 	    	certStream.close();
