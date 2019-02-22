@@ -33,14 +33,15 @@ public class UserService {
 			JsonNode wx_session = WxUtil.getOauthInfobylittleApp(wxCode);
 			String sessionKey = wx_session.get("session_key").asText();
 			String openID = wx_session.get("openid").asText();
-			String unionID = wx_session.get("unionid").asText();
+			//String unionID = wx_session.get("unionid").asText();
 			
 			JsonNode userJson = WxUtil.getUserInfo(encryptedData, sessionKey, iv);
 			String nick = userJson.get("nickName").asText();
 			nick = WxUtil.converWxNick(nick);
 			String avatar = userJson.get("avatarUrl").asText();
 			avatar = WxUtil.convertAvatar(avatar);
-		
+			String unionID = userJson.get("unionId").asText();
+			
 			User user = getUserByWxUnionID(unionID, nick, avatar);	
 			
 			return user;

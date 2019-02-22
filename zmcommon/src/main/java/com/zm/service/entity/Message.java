@@ -38,13 +38,6 @@ public class Message {
 	@ColumnType(jdbcType = JdbcType.VARCHAR)
 	private String content;
 	
-	public static final int STATE_UNREAD = 0;
-	public static final int STATE_READED = 1;
-	
-	@Column(name = "state")
-	@ColumnType(jdbcType = JdbcType.TINYINT)
-	private Integer state;
-	
 	@Column(name = "createtime")
 	@ColumnType(jdbcType = JdbcType.TIMESTAMP)
 	private Date createtime;
@@ -79,14 +72,6 @@ public class Message {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public Integer getState() {
-		return state;
-	}
-
-	public void setState(Integer state) {
-		this.state = state;
 	}
 
 	public Date getCreatetime() {

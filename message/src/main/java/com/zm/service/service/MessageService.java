@@ -32,7 +32,7 @@ public class MessageService {
 		Example ex = new Example(Message.class);
 		ex.createCriteria().andEqualTo("uid", uid);
 		ex.setOrderByClause("id desc");
-		RowBounds rowBounds = new RowBounds(pageIndex*pageSize, pageSize);
+		RowBounds rowBounds = new RowBounds((pageIndex-1)*pageSize, pageSize);
 		List<Message> ret = msgMapper.selectByExampleAndRowBounds(ex, rowBounds);
 		return ret;
 	}
@@ -45,7 +45,6 @@ public class MessageService {
 		msg.setType(type);
 		msg.setUid(targetuid);
 		msg.setCreatetime(new Date());
-		msg.setState(Message.STATE_UNREAD);
 		//TODO 推送到微信
 		
 		return;
