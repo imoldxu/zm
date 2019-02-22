@@ -86,7 +86,7 @@ public class User {
 	private String wxunionid;
 	
 	@Column(name = "createtime")
-	@ColumnType(jdbcType = JdbcType.TIME)
+	@ColumnType(jdbcType = JdbcType.TIMESTAMP)
 	private Date createtime;
 	
 	@Column(name = "lastlogintime")
