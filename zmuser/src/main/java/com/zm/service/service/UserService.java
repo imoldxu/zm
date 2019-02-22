@@ -182,13 +182,13 @@ public class UserService {
 	}
 
 	public void verifyIDCard(int uid, String code, String name, String phone, int idcardtype, String idcardnum) {
-		String vercode = (String) redissonUtil.get("VERCODE_"+phone);
-		if(vercode==null){
-			throw new HandleException(ErrorCode.NORMAL_ERROR, "验证码已过期");
-		}
-		if(!vercode.equals(code)){
-			throw new HandleException(ErrorCode.NORMAL_ERROR, "验证码错误");
-		}
+//		String vercode = (String) redissonUtil.get("VERCODE_"+phone);
+//		if(vercode==null){
+//			throw new HandleException(ErrorCode.NORMAL_ERROR, "验证码已过期");
+//		}
+//		if(!vercode.equals(code)){
+//			throw new HandleException(ErrorCode.NORMAL_ERROR, "验证码错误");
+//		}
 		User user = userMapper.selectByPrimaryKey(uid);
 		if(user.getIdcardnum()!=null){
 			throw new HandleException(ErrorCode.NORMAL_ERROR, "用户已实名认证，不可重复认证");
