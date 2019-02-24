@@ -56,11 +56,11 @@ public class HouseCommentController{
 			@ApiParam(name = "reserveid", value = "预约id") @RequestParam(name = "reserveid") Long reserveid,
 			@ApiParam(name = "content", value = "内容") @RequestParam(name = "content") String content,
 			@ApiParam(name = "imglist", value = "图片列表") @RequestParam(name = "imglist") JSONArray imglist,
-			@ApiParam(name = "taglist", value = "tag的点评") @RequestParam(name = "taglist") String taglist,
+			@ApiParam(name = "taglist", value = "tag的点评") @RequestParam(name = "taglist") JSONArray taglist,
 			HttpServletRequest request, HttpServletResponse response) {
 		List<TagComment> tagComments = null;
 		try{
-			tagComments = JSONUtils.getObjectListByJson(taglist, TagComment.class);
+			tagComments = JSONUtils.getObjectListByJson(taglist.toJSONString(), TagComment.class);
 		}catch (Exception e) {
 			return Response.Error(ErrorCode.ARG_ERROR, "参数错误");
 		}
