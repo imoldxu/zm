@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
@@ -31,7 +32,7 @@ public class HouseCommentService {
 	@Autowired
 	UserClient userClient;
 	
-	public void commit(Integer uid, Long reserveid, String content, String imglist, List<TagComment> tagComments) {
+	public void commit(Integer uid, Long reserveid, String content, JSONArray imglist, List<TagComment> tagComments) {
 		//校验是否已经完成看房
 		Response resp = reserveClient.getReserveById(reserveid);
 		ObjectMapper mapper = new ObjectMapper();

@@ -11,6 +11,9 @@ import javax.persistence.Transient;
 
 import org.apache.ibatis.type.JdbcType;
 
+import com.alibaba.fastjson.JSONArray;
+import com.zm.service.typehandler.JSONArrayHandler;
+
 import tk.mybatis.mapper.annotation.ColumnType;
 
 @Table(name="t_user_comment")
@@ -57,8 +60,8 @@ public class UComment {
 	private String content;
 	
 	@Column(name = "imglist")
-	@ColumnType(jdbcType = JdbcType.VARCHAR)
-	private String imglist;
+	@ColumnType(jdbcType = JdbcType.VARCHAR, typeHandler = JSONArrayHandler.class)
+	private JSONArray imglist;
 	
 	@Column(name = "createtime")
 	@ColumnType(jdbcType = JdbcType.TIMESTAMP)
@@ -96,11 +99,11 @@ public class UComment {
 		this.content = content;
 	}
 
-	public String getImglist() {
+	public JSONArray getImglist() {
 		return imglist;
 	}
 
-	public void setImglist(String imglist) {
+	public void setImglist(JSONArray imglist) {
 		this.imglist = imglist;
 	}
 

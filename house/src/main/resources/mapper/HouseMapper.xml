@@ -5,7 +5,7 @@
 	<resultMap id="MySimpleHouse" type="com.zm.service.entity.SimpleHouse" >
 	    <id column="id" property="id" jdbcType="INTEGER" />
 	    <result column="name" property="name" jdbcType="VARCHAR" />
-	    <result column="imglist" property="imglist" jdbcType="VARCHAR" />
+	    <result column="imglist" property="imglist" jdbcType="VARCHAR" typeHandler="com.zm.service.typehandler.JSONArrayHandler"/>
 	    <result column="area" property="area" jdbcType="INTEGER" />
 	    <result column="room" property="room" jdbcType="INTEGER" />
 	    <result column="parlor" property="parlor" jdbcType="INTEGER" />
@@ -13,7 +13,7 @@
 	    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
 	    <result column="amount" property="amount" jdbcType="INTEGER" />
 	    <result column="distance" property="distance" jdbcType="INTEGER" />
-	    <result column="tags" property="tags" jdbcType="VARCHAR" />
+	    <result column="tags" property="tags" jdbcType="VARCHAR" typeHandler="com.zm.service.typehandler.JSONArrayHandler"/>
 	    <result column="uid" property="uid" jdbcType="INTEGER" />
 	    <result column="state" property="state" jdbcType="INTEGER" />
   	</resultMap>

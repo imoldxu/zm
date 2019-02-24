@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zm.service.entity.HComment;
+import com.alibaba.fastjson.JSONArray;
 import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
 import com.zm.service.context.Response;
@@ -54,7 +55,7 @@ public class HouseCommentController{
 	public Response commit(
 			@ApiParam(name = "reserveid", value = "预约id") @RequestParam(name = "reserveid") Long reserveid,
 			@ApiParam(name = "content", value = "内容") @RequestParam(name = "content") String content,
-			@ApiParam(name = "imglist", value = "图片列表") @RequestParam(name = "imglist") String imglist,
+			@ApiParam(name = "imglist", value = "图片列表") @RequestParam(name = "imglist") JSONArray imglist,
 			@ApiParam(name = "taglist", value = "tag的点评") @RequestParam(name = "taglist") String taglist,
 			HttpServletRequest request, HttpServletResponse response) {
 		List<TagComment> tagComments = null;

@@ -25,6 +25,7 @@ import com.zm.service.context.HandleException;
 import com.zm.service.context.Response;
 import com.zm.service.service.OrderService;
 import com.zm.service.utils.JSONUtils;
+import com.zm.service.utils.MyWxPayConfig;
 import com.zm.service.utils.MyWxPayUtil;
 import com.zm.service.utils.SessionUtil;
 
@@ -70,7 +71,7 @@ public class PaymentController{
 	public Response getMyOrders(@ApiParam(name="pageIndex", value="页码") @RequestParam(name="pageIndex") int pageIndex,
 			@ApiParam(name="pageSize", value="每页最大数量") @RequestParam(name="pageSize") int pageSize,
 			HttpServletRequest request, HttpServletResponse response) {
-	
+		
 		try{
 			Integer uid = SessionUtil.getUserId(request);
 			List<Order> ret = orderService.getMyOrder(uid, pageIndex, pageSize);

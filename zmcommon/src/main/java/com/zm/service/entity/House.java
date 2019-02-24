@@ -12,6 +12,9 @@ import javax.persistence.Transient;
 
 import org.apache.ibatis.type.JdbcType;
 
+import com.alibaba.fastjson.JSONArray;
+import com.zm.service.typehandler.JSONArrayHandler;
+
 import tk.mybatis.mapper.annotation.ColumnType;
 
 @Table(name="t_house")
@@ -137,14 +140,14 @@ public class House {
 	private Integer tip;
 	
 	@Column(name = "tenantlimit")
-	@ColumnType(jdbcType = JdbcType.VARCHAR)
-	private String tenantlimit;
+	@ColumnType(jdbcType = JdbcType.VARCHAR, typeHandler = JSONArrayHandler.class)
+	private JSONArray tenantlimit;
 	
-	public String getTenantlimit() {
+	public JSONArray getTenantlimit() {
 		return tenantlimit;
 	}
 
-	public void setTenantlimit(String tenantlimit) {
+	public void setTenantlimit(JSONArray tenantlimit) {
 		this.tenantlimit = tenantlimit;
 	}
 
@@ -165,14 +168,14 @@ public class House {
 	private String reservetime;
 	
 	@Column(name = "imglist")
-	@ColumnType(jdbcType = JdbcType.VARCHAR)
-	private String imglist;
+	@ColumnType(jdbcType = JdbcType.VARCHAR, typeHandler = JSONArrayHandler.class)
+	private JSONArray imglist;
 
-	public String getImglist() {
+	public JSONArray getImglist() {
 		return imglist;
 	}
 
-	public void setImglist(String imglist) {
+	public void setImglist(JSONArray imglist) {
 		this.imglist = imglist;
 	}
 
@@ -190,8 +193,8 @@ public class House {
 	
 	
 	@Column(name = "installation")
-	@ColumnType(jdbcType = JdbcType.VARCHAR)
-	private String installation;//设施
+	@ColumnType(jdbcType = JdbcType.VARCHAR, typeHandler = JSONArrayHandler.class)
+	private JSONArray installation;//设施
 
 	public static final int STATE_VALID = 1;	//发布即有效
 	public static final int STATE_LOCKED = 2;   //有人锁定
@@ -269,11 +272,11 @@ public class House {
 		this.reservetime = reservetime;
 	}
 
-	public String getInstallation() {
+	public JSONArray getInstallation() {
 		return installation;
 	}
 
-	public void setInstallation(String installation) {
+	public void setInstallation(JSONArray installation) {
 		this.installation = installation;
 	}
 

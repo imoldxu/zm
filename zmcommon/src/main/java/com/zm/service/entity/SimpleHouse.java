@@ -2,13 +2,15 @@ package com.zm.service.entity;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.JSONArray;
+
 public class SimpleHouse {
 
 	private Long id;
 	
 	private String name;
 	
-	private String imglist;
+	private JSONArray imglist;
 	
 	private Date createtime;
 	
@@ -28,7 +30,7 @@ public class SimpleHouse {
 	
 	private String phone;//发布者phone
 	
-	private String tags;
+	private JSONArray tags;
 	
 	private int state;
 
@@ -80,19 +82,19 @@ public class SimpleHouse {
 		this.distance = distance;
 	}
 
-	public String getImglist() {
+	public JSONArray getImglist() {
 		return imglist;
 	}
 
-	public void setImglist(String imglist) {
+	public void setImglist(JSONArray imglist) {
 		this.imglist = imglist;
 	}
 
-	public String getTags() {
+	public JSONArray getTags() {
 		return tags;
 	}
 
-	public void setTags(String tags) {
+	public void setTags(JSONArray tags) {
 		this.tags = tags;
 	}
 

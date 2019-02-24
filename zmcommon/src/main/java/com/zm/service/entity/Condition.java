@@ -10,6 +10,9 @@ import javax.persistence.Table;
 
 import org.apache.ibatis.type.JdbcType;
 
+import com.alibaba.fastjson.JSONArray;
+import com.zm.service.typehandler.JSONArrayHandler;
+
 import tk.mybatis.mapper.annotation.ColumnType;
 
 @Table(name="t_condition")
@@ -78,8 +81,8 @@ public class Condition {
 	private Integer isnotify;
 	
 	@Column(name = "tags")
-	@ColumnType(jdbcType = JdbcType.VARCHAR)
-	private String tags;
+	@ColumnType(jdbcType = JdbcType.VARCHAR, typeHandler=JSONArrayHandler.class)
+	private JSONArray tags;
 
 	public static final int STATE_VALID = 1;
 	public static final int STATE_INVALID = 0;
@@ -189,11 +192,11 @@ public class Condition {
 		this.isnotify = isnotify;
 	}
 
-	public String getTags() {
+	public JSONArray getTags() {
 		return tags;
 	}
 
-	public void setTags(String tags) {
+	public void setTags(JSONArray tags) {
 		this.tags = tags;
 	}
 

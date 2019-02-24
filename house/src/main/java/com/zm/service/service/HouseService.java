@@ -17,6 +17,7 @@ import com.zm.service.feign.client.ReserveClient;
 import com.zm.service.feign.client.TagClient;
 import com.zm.service.feign.client.TransactionClient;
 import com.zm.service.feign.client.UserClient;
+import com.alibaba.fastjson.JSONArray;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zm.service.context.ComplainState;
@@ -96,11 +97,11 @@ public class HouseService {
 		}
 		int offset = (pageIndex-1)*pageSize;
 		
-		String tags = condition.getTags();
+		JSONArray tags = condition.getTags();
 		if(tags != null){
 			List<Integer> tagList;
 			try {
-				tagList = JSONUtils.getObjectListByJson(tags, Integer.class);
+				tagList = JSONUtils.getObjectListByJson(tags.toJSONString(), Integer.class);
 			} catch (Exception e) {
 				throw new HandleException(ErrorCode.ARG_ERROR, "参数错误");
 			}
