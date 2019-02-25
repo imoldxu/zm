@@ -65,7 +65,7 @@ public class TransClientImpl implements TransactionClient{
 
 	@Override
 	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
-	@RequestMapping(value = "/check", method = RequestMethod.POST)
+	@RequestMapping(value = "/check", method = RequestMethod.GET)
 	@ApiOperation(value = "检查是否还有存在的交易", notes = "取消交易")
 	public Response check(@ApiParam(name = "uid", value = "用户id") @RequestParam(name = "uid")int uid,
 			@ApiParam(name = "type", value = "交易类型，求租1，出租2") @RequestParam(name = "type")int type) {
