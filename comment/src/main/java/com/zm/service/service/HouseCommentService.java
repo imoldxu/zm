@@ -31,6 +31,8 @@ public class HouseCommentService {
 	ReserveClient reserveClient;
 	@Autowired
 	UserClient userClient;
+	@Autowired
+	HouseTagService houseTagService;
 	
 	public void commit(Integer uid, Long reserveid, String content, JSONArray imglist, List<TagComment> tagComments) {
 		//校验是否已经完成看房
@@ -63,6 +65,9 @@ public class HouseCommentService {
 		//奖励一个看房币
 		resp = userClient.addCoin(uid, 1, "评论奖励");
 		resp.fetchOKData();
+		
+		//提交房源的评论信息
+		houseTagService.addHouseTags(reserve.getHouseid(), tagComments);
 	}
 
 	public List<HComment> getComments(Long houseid, int pageIndex, int pageSize) {

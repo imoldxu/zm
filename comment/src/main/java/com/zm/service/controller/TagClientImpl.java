@@ -13,6 +13,7 @@ import com.zm.service.context.ComplainState;
 import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
 import com.zm.service.context.Response;
+import com.zm.service.context.TagComment;
 import com.zm.service.entity.HouseTag;
 import com.zm.service.feign.client.TagClient;
 import com.zm.service.service.HouseTagService;
@@ -38,9 +39,9 @@ public class TagClientImpl implements TagClient{
 	@ApiOperation(value = "添加房源标签", notes = "获取房源评论")
 	public Response addHouseTags(@ApiParam(name="houseid", value="房源id") @RequestParam(name="houseid") long houseid,
 			@ApiParam(name="tagListStr", value="tagList的json传") @RequestParam(name="tagListStr") String tagListStr){
-		List<HouseTag> list;	
+		List<TagComment> list;	
 		try{
-			list = JSONUtils.getObjectListByJson(tagListStr, HouseTag.class);
+			list = JSONUtils.getObjectListByJson(tagListStr, TagComment.class);
 		}catch (Exception e) {
 			return Response.Error(ErrorCode.DATA_ERROR, "内部参数错误");
 		}
