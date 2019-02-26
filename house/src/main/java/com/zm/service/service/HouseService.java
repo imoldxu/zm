@@ -156,6 +156,11 @@ public class HouseService {
 		states.add(House.STATE_LOCKED);
 		ex.createCriteria().andEqualTo("uid", uid).andIn("state", states);
 		House h = houseMapper.selectOneByExample(ex);
+		
+		ObjectMapper mapper = new ObjectMapper();
+	    List<HouseTag> list = mapper.convertValue(tagClient.getHouseTags(h.getId()).fetchOKData(), new TypeReference<List<HouseTag>>() {});
+	    h.setTagList(list);
+		
 		return h;
 	}
 
