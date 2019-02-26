@@ -4,6 +4,8 @@ public class TagComment {
 
 	private Integer tagid;
 	
+	private String tagname;
+	
 	private int good;
 	
 	private int bad;
@@ -30,6 +32,14 @@ public class TagComment {
 
 	public void setBad(int bad) {
 		this.bad = bad;
+	}
+
+	public String getTagname() {
+		return tagname;
+	}
+
+	public void setTagname(String tagname) {
+		this.tagname = tagname;
 	}
 	
 
