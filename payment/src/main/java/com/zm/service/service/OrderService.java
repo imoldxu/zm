@@ -160,10 +160,10 @@ public class OrderService {
 			String info = order.getInfo();
 			int transCode = order.getCode();
 			if(transCode == Order.CODE_TRANSACTION){
-				//通知交易完成
+				//通知交易取消
 				transClient.cancel(Long.valueOf(info));
 			} else if(transCode == Order.CODE_RESERVE){
-				//通知完成看房预约
+				//通知完成看房取消
 				reserveClient.cancel(Long.valueOf(info));
 			}
 		}

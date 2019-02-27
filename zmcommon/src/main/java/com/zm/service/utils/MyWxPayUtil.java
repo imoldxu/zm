@@ -14,7 +14,7 @@ import com.zm.service.context.WXPayCharge;
 
 public class MyWxPayUtil {
 
-	private static final String notify_url = "http://";
+	private static final String notify_url = "https://39.108.253.177/payment-service/notify";
 	
 	/**
 	 * 微信支付统一下单接口
