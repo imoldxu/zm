@@ -172,10 +172,17 @@ public class HouseService {
 			throw new HandleException(ErrorCode.DOMAIN_ERROR, "你没有权限操作");
 		}
 		
-		house.setState(null);
+		ObjectMapper om = new ObjectMapper();
+		Boolean hasReserve = om.convertValue(reserveClient.checkReserve(house.getId()).fetchOKData(), Boolean.class);
 		
-		houseMapper.updateByPrimaryKeySelective(house);
-		return house;
+		if(hasReserve.booleanValue()) {
+			house.setState(null);//不更新状态
+		
+			houseMapper.updateByPrimaryKeySelective(house);
+			return house;
+		}else {
+			throw new HandleException(ErrorCode.NORMAL_ERROR, "房源已被预约不允许修改，若必要可直接删除房源");
+		}
 	}
 
 	@Transactional
@@ -230,6 +237,5 @@ public class HouseService {
 		
 		return ret;
 	}
-
 	
 }

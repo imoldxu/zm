@@ -8,14 +8,19 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zm.service.entity.Message;
 import com.zm.service.entity.User;
+import com.zm.service.feign.client.UserClient;
 import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
+import com.zm.service.context.ReserveMessage;
 import com.zm.service.mapper.MessageMapper;
 import com.zm.service.utils.IdCardUtil;
+import com.zm.service.utils.JSONUtils;
 import com.zm.service.utils.RedissonUtil;
 import com.zm.service.utils.WxMiniProgramUtil;
 
@@ -28,7 +33,8 @@ public class MessageService {
 	RedissonUtil redissonUtil;
 	@Autowired
 	MessageMapper msgMapper;
-	
+	@Autowired
+	UserClient userClient;
 	
 	public List<Message> getMyMessage(Integer uid, int pageIndex, int pageSize) {
 		Example ex = new Example(Message.class);
@@ -47,12 +53,25 @@ public class MessageService {
 		msg.setType(type);
 		msg.setUid(targetuid);
 		msg.setCreatetime(new Date());
-		//TODO 推送到微信
-		
+		//推送到微信
+		ObjectMapper om = new ObjectMapper();
+		User user = om.convertValue(userClient.getUser(targetuid).fetchOKData(), User.class);
+		try {
+			if(type == Message.TYPE_RESERVE_RENDER_NOTICE) {
+				ReserveMessage msgObj = JSONUtils.getObjectByJson(content, ReserveMessage.class);
+				push2RenderReserveMessage(user.getWxminiopenid(), msgObj);
+			}else if(type == Message.TYPE_RESERVE_ISSUER_NOTICE) {
+				ReserveMessage msgObj = JSONUtils.getObjectByJson(content, ReserveMessage.class);
+				push2IssueReserveMessage(user.getWxminiopenid(), msgObj);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new HandleException(ErrorCode.NORMAL_ERROR, "消息发送失败");
+		}
 		return;
 	}
 	
-	private void push2RenderReserveMessage(){
+	private void push2RenderReserveMessage(String openid, ReserveMessage msgObj){
 		
 		String access_token = (String) redissonUtil.get("wechat_mini_access_token");
 		String template_id = "EcMJSYNHukGBcpbXZyymi_j2J0zRv_cOb6VOEwnnU4A";
@@ -60,30 +79,30 @@ public class MessageService {
 		String form_id = "";
 		JSONObject msg = new JSONObject();
 		JSONObject houseName = new JSONObject();
-		houseName.put("value", value);
+		houseName.put("value", msgObj.getHouseName());
 		msg.put("keyword1", houseName);
 		
 		JSONObject issuerPhone = new JSONObject();
-		issuerPhone.put("value", value);
+		issuerPhone.put("value", msgObj.getIssuerPhone());
 		msg.put("keyword2", issuerPhone);
 		
 		JSONObject reserveTime = new JSONObject();
-		reserveTime.put("value", value);
+		reserveTime.put("value", msgObj.getDateTime());
 		msg.put("keyword3", reserveTime);
 		
 		JSONObject state = new JSONObject();
-		state.put("value", value);
+		state.put("value", msgObj.getState());
 		msg.put("keyword4", state);
 		
 		JSONObject remark = new JSONObject();
-		remark.put("value", value);
+		remark.put("value", msgObj.getRemark());
 		msg.put("keyword5", remark);
 		
 		WxMiniProgramUtil.pushTemplateMsg(openid, access_token, template_id, page, form_id, msg);
 		return;
 	}
 	
-private void push2IssueReserveMessage(){
+	private void push2IssueReserveMessage(String openid, ReserveMessage msgObj){
 		
 		String access_token = (String) redissonUtil.get("wechat_mini_access_token");
 		String template_id = "EcMJSYNHukGBcpbXZyymi1eXUnXIw6n_L5vGdJUX9Zc";
@@ -91,27 +110,27 @@ private void push2IssueReserveMessage(){
 		String form_id = "";
 		JSONObject msg = new JSONObject();
 		JSONObject houseName = new JSONObject();
-		houseName.put("value", value);
+		houseName.put("value", msgObj.getHouseName());
 		msg.put("keyword1", houseName);
 		
 		JSONObject renderName = new JSONObject();
-		renderName.put("value", value);
+		renderName.put("value", msgObj.getRenderName());
 		msg.put("keyword2", renderName);
 		
 		JSONObject renderPhone = new JSONObject();
-		renderPhone.put("value", value);
+		renderPhone.put("value", msgObj.getHouseName());
 		msg.put("keyword3", renderPhone);
 		
 		JSONObject reserveTime = new JSONObject();
-		reserveTime.put("value", value);
+		reserveTime.put("value", msgObj.getDateTime());
 		msg.put("keyword4", reserveTime);
 		
 		JSONObject state = new JSONObject();
-		state.put("value", value);
+		state.put("value", msgObj.getState());
 		msg.put("keyword5", state);
 		
 		JSONObject remark = new JSONObject();
-		remark.put("value", value);
+		remark.put("value", msgObj.getRemark());
 		msg.put("keyword6", remark);
 		
 		WxMiniProgramUtil.pushTemplateMsg(openid, access_token, template_id, page, form_id, msg);

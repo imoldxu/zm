@@ -22,4 +22,7 @@ public interface ReserveClient {
 	
 	@RequestMapping(value = "/internal/close", method = RequestMethod.POST)
 	Response close(@RequestParam(name="uid") Integer uid, @RequestParam(name="type")int type);
+
+	@RequestMapping(value = "/internal/checkReserve", method = RequestMethod.GET)
+	Response checkReserve( @RequestParam(name = "houseid") Long houseid);
 }

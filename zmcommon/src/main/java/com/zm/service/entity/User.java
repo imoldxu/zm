@@ -85,6 +85,10 @@ public class User {
 	@ColumnType(jdbcType = JdbcType.VARCHAR)
 	private String wxunionid;
 	
+	@Column(name = "wxminiopenid")
+	@ColumnType(jdbcType = JdbcType.VARCHAR)
+	private String wxminiopenid;
+	
 	@Column(name = "createtime")
 	@ColumnType(jdbcType = JdbcType.TIMESTAMP)
 	private Date createtime;
@@ -212,6 +216,14 @@ public class User {
 
 	public void setSessionID(String sessionID) {
 		this.sessionID = sessionID;
+	}
+
+	public String getWxminiopenid() {
+		return wxminiopenid;
+	}
+
+	public void setWxminiopenid(String wxminiopenid) {
+		this.wxminiopenid = wxminiopenid;
 	}
 	
 	

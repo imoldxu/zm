@@ -23,8 +23,11 @@ import com.zm.service.feign.client.OrderClient;
 import com.zm.service.feign.client.UserClient;
 import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
+import com.zm.service.context.ReserveMessage;
 import com.zm.service.context.Response;
 import com.zm.service.mapper.ReserveMapper;
+import com.zm.service.utils.DateUtils;
+import com.zm.service.utils.JSONUtils;
 
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
@@ -115,14 +118,40 @@ public class ReserveService {
 		
 		if(reserve.getIuid() == uid){
 			reserve.setIstate(Reserve.USER_STATE_CONFIRM);
-			//TODO:通知对方
+			
 			Integer ruid = reserve.getRuid();
-			msgClient.push(ruid, Message.TYPE_RESERVE_NOTICE, "预约时间已被确认");
+			
+			ReserveMessage msg = new ReserveMessage();
+			ObjectMapper om = new ObjectMapper();
+			House house = om.convertValue(houseClient.getHouseById(reserve.getHouseid()).fetchOKData(), House.class);
+			User issuer = om.convertValue(userClient.getUser(reserve.getIuid()).fetchOKData(), User.class);
+			msg.setHouseName(house.getName());
+			msg.setIssuerName(issuer.getNick());
+			msg.setIssuerPhone(issuer.getPhone());
+			msg.setDateTime(DateUtils.formatDateTimehm(reserve.getTime()));
+			msg.setState("预约已确认");
+			msg.setRemark("对方已确认预约，请准时到场");
+			String msgStr = JSONUtils.getJsonString(msg);
+			
+			msgClient.push(ruid, Message.TYPE_RESERVE_RENDER_NOTICE, msgStr);
 		}else if(reserve.getRuid() == uid){
 			reserve.setRstate(Reserve.USER_STATE_CONFIRM);
-			//TODO:通知对方
+
 			Integer iuid = reserve.getIuid();
-			msgClient.push(iuid, Message.TYPE_RESERVE_NOTICE, "预约时间已被确认");
+			
+			ReserveMessage msg = new ReserveMessage();
+			
+			ObjectMapper om = new ObjectMapper();
+			House house = om.convertValue(houseClient.getHouseById(reserve.getHouseid()).fetchOKData(), House.class);
+			User render = om.convertValue(userClient.getUser(reserve.getRuid()).fetchOKData(), User.class);
+			msg.setHouseName(house.getName());
+			msg.setRenderName(render.getNick());
+			msg.setRenderPhone(render.getPhone());
+			msg.setDateTime(DateUtils.formatDateTimehm(reserve.getTime()));
+			msg.setState("预约已确认");
+			msg.setRemark("对方已确认预约，请准时到场");
+			String msgStr = JSONUtils.getJsonString(msg);
+			msgClient.push(iuid, Message.TYPE_RESERVE_ISSUER_NOTICE, msgStr);
 		}else{
 			throw new HandleException(ErrorCode.DOMAIN_ERROR, "你无权操作此数据");
 		}
@@ -142,14 +171,40 @@ public class ReserveService {
 		if(reserve.getIuid() == uid){
 			reserve.setIstate(Reserve.USER_STATE_CONFIRM);
 			reserve.setRstate(Reserve.USER_STATE_UNCONFIRM);
-			//TODO:通知对方
-			msgClient.push(reserve.getRuid(), Message.TYPE_RESERVE_NOTICE, "预约时间已被修改");
+			
+			//通知求租者
+			ReserveMessage msg = new ReserveMessage();
+			ObjectMapper om = new ObjectMapper();
+			House house = om.convertValue(houseClient.getHouseById(reserve.getHouseid()).fetchOKData(), House.class);
+			User issuer = om.convertValue(userClient.getUser(reserve.getIuid()).fetchOKData(), User.class);
+			msg.setHouseName(house.getName());
+			msg.setIssuerName(issuer.getNick());
+			msg.setIssuerPhone(issuer.getPhone());
+			msg.setDateTime(DateUtils.formatDateTimehm(reserve.getTime()));
+			msg.setState("预约时间变更");
+			msg.setRemark("对方修改了预约时间，请即时确认");
+			String msgStr = JSONUtils.getJsonString(msg);
+			
+			msgClient.push(reserve.getRuid(), Message.TYPE_RESERVE_RENDER_NOTICE, msgStr);
 			
 		}else if(reserve.getRuid() == uid){
 			reserve.setRstate(Reserve.USER_STATE_CONFIRM);
 			reserve.setIstate(Reserve.USER_STATE_UNCONFIRM);
-			//TODO:通知对方
-			msgClient.push(reserve.getIuid(), Message.TYPE_RESERVE_NOTICE, "预约时间已被修改");
+			//通知发布者
+			ReserveMessage msg = new ReserveMessage();
+			
+			ObjectMapper om = new ObjectMapper();
+			House house = om.convertValue(houseClient.getHouseById(reserve.getHouseid()).fetchOKData(), House.class);
+			User render = om.convertValue(userClient.getUser(reserve.getRuid()).fetchOKData(), User.class);
+			msg.setHouseName(house.getName());
+			msg.setRenderName(render.getNick());
+			msg.setRenderPhone(render.getPhone());
+			msg.setDateTime(DateUtils.formatDateTimehm(reserve.getTime()));
+			msg.setState("预约时间变更");
+			msg.setRemark("对方修改了预约时间，请即时确认");
+			String msgStr = JSONUtils.getJsonString(msg);
+			
+			msgClient.push(reserve.getIuid(), Message.TYPE_RESERVE_ISSUER_NOTICE, msgStr);
 		}else{
 			throw new HandleException(ErrorCode.DOMAIN_ERROR, "你无权操作此数据");
 		}
@@ -299,9 +354,27 @@ public class ReserveService {
 		if(1==type) {
 			Example ex = new Example(Reserve.class);
 			ex.createCriteria().andEqualTo("ruid", uid).andEqualTo("state", Reserve.STATE_VALID);
-			Reserve r = new Reserve();
-			r.setState(Reserve.STATE_CANCEL);
-			reserveMapper.updateByExampleSelective(r, ex);
+			List<Reserve> rlist = reserveMapper.selectByExample(ex);
+			for(Reserve r: rlist) {
+				r.setState(Reserve.STATE_CANCEL);
+				reserveMapper.updateByExampleSelective(r, ex);
+				
+				//通知发布者
+				ReserveMessage msg = new ReserveMessage();
+				
+				ObjectMapper om = new ObjectMapper();
+				House house = om.convertValue(houseClient.getHouseById(r.getHouseid()).fetchOKData(), House.class);
+				User render = om.convertValue(userClient.getUser(r.getRuid()).fetchOKData(), User.class);
+				msg.setHouseName(house.getName());
+				msg.setRenderName(render.getNick());
+				msg.setRenderPhone(render.getPhone());
+				msg.setDateTime(DateUtils.formatDateTimehm(r.getTime()));
+				msg.setState("预约已取消");
+				msg.setRemark("对方取消了预约，耽误你的时间很抱歉");
+				String msgStr = JSONUtils.getJsonString(msg);
+				
+				msgClient.push(r.getIuid(), Message.TYPE_RESERVE_ISSUER_NOTICE, msgStr);
+			}
 		}else {
 			Example ex = new Example(Reserve.class);
 			ex.createCriteria().andEqualTo("iuid", uid).andEqualTo("state", Reserve.STATE_VALID);
@@ -310,7 +383,32 @@ public class ReserveService {
 				r.setState(Reserve.STATE_CANCEL);
 				userClient.addCoin(r.getRuid(), 2, "发布者取消预约退还币");
 				reserveMapper.updateByPrimaryKey(r);
+				
+				//通知求租者
+				ReserveMessage msg = new ReserveMessage();
+				ObjectMapper om = new ObjectMapper();
+				House house = om.convertValue(houseClient.getHouseById(r.getHouseid()).fetchOKData(), House.class);
+				User issuer = om.convertValue(userClient.getUser(r.getIuid()).fetchOKData(), User.class);
+				msg.setHouseName(house.getName());
+				msg.setIssuerName(issuer.getNick());
+				msg.setIssuerPhone(issuer.getPhone());
+				msg.setDateTime(DateUtils.formatDateTimehm(r.getTime()));
+				msg.setState("预约已取消");
+				msg.setRemark("房源已被发布者取消或已经完成交易，看房币已退还");
+				String msgStr = JSONUtils.getJsonString(msg);
+				msgClient.push(r.getRuid(), Message.TYPE_RESERVE_RENDER_NOTICE, msgStr);
 			}
+		}
+	}
+
+	public Boolean check(Long houseid) {
+		Example ex = new Example(Reserve.class);
+		ex.createCriteria().andEqualTo("houseid", houseid);
+		List<Reserve> list= reserveMapper.selectByExample(ex);
+		if(list.isEmpty()) {
+			return Boolean.FALSE;
+		}else {
+			return Boolean.TRUE;
 		}
 	}
 	

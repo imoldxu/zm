@@ -36,14 +36,14 @@ public class UserService {
 			String openID = wx_session.get("openid").asText();
 			//String unionID = wx_session.get("unionid").asText();
 			
-			JsonNode userJson = WxUtil.getUserInfo(encryptedData, sessionKey, iv);
+			JsonNode userJson = WxMiniProgramUtil.getUserInfo(encryptedData, sessionKey, iv);
 			String nick = userJson.get("nickName").asText();
-			nick = WxUtil.converWxNick(nick);
+			nick = WxMiniProgramUtil.converWxNick(nick);
 			String avatar = userJson.get("avatarUrl").asText();
-			avatar = WxUtil.convertAvatar(avatar);
+			avatar = WxMiniProgramUtil.convertAvatar(avatar);
 			String unionID = userJson.get("unionId").asText();
 			
-			User user = getUserByWxUnionID(unionID, nick, avatar);	
+			User user = getUserByWxUnionID(unionID, openID, nick, avatar);	
 			
 			return user;
 		} catch (IOException e) {
@@ -65,7 +65,7 @@ public class UserService {
 		String wxnick = wxUserInfo.get("nickname").asText();
 		String nick = WxUtil.converWxNick(wxnick);
 		// 获取微信账号对应的账号
-		User user = getUserByWxUnionID(unionID, nick ,headerImgURL);
+		User user = getUserByWxUnionID(unionID, "", nick ,headerImgURL);
 		
 		if(user.getIdcardtype() == User.TYPE_IDCARD){
 			String idcard = user.getIdcardnum();
@@ -92,7 +92,7 @@ public class UserService {
 
 	
 
-	private User getUserByWxUnionID(String unionID, String nick, String avatar) {
+	private User getUserByWxUnionID(String unionID, String openid, String nick, String avatar) {
 		Example wxUserExample = new Example(User.class);
 		wxUserExample.createCriteria().andEqualTo("wxunionid", unionID);
 		wxUserExample.setOrderByClause("id asc");
@@ -103,9 +103,11 @@ public class UserService {
 			user.setWxunionid(unionID);
 			user.setAvatar(avatar);
 			user.setNick(nick);
+			user.setWxminiopenid(openid);
 			user.setCreatetime(new Date());
 			userMapper.insertUseGeneratedKeys(user);
 		} else {
+			user.setWxminiopenid(openid);
 			user.setAvatar(avatar);
 			user.setNick(nick);
 			userMapper.updateByPrimaryKey(user);			

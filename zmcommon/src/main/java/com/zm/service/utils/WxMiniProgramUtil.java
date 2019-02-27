@@ -11,6 +11,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.security.crypto.codec.Base64;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
@@ -32,14 +33,6 @@ public class WxMiniProgramUtil {
 
 	public static final String littleapp_appid = "wx27274648aadcf410";  //租盟
 	public static final String littleapp_secret = "d0e80bf423848e0ebb647998e2228d63";
-	
-	private static String create_nonce_str() {
-		return UUID.randomUUID().toString();
-	}
-
-	private static String create_timestamp() {
-		return Long.toString(System.currentTimeMillis() / 1000);
-	}
 	
 	public static JsonNode getOauthInfobylittleApp(String wxCode) throws IOException {
 		HttpClientUtil h = new HttpClientUtil();
@@ -68,35 +61,6 @@ public class WxMiniProgramUtil {
 				throw new IOException("微信服务器请求失败");
 			}
 		} finally {
-			h.close();
-		}
-	}
-	
-	public static JsonNode getUserInfo(JsonNode wxOauthInfo) throws IOException {
-		HttpClientUtil h = new HttpClientUtil();
-		JsonNode ret = null;
-		try {
-			h.open("https://api.weixin.qq.com/sns/userinfo", "get");
-			h.addParameter("access_token", wxOauthInfo.get("access_token").asText());
-			h.addParameter("openid", wxOauthInfo.get("openid").asText());
-			h.addParameter("lang", "zh_CN");
-
-			h.setRequestHeader("Cookie", "Language=zh_CN;UserAgent=PC");
-			int status = h.send();
-			if (200 == status) {
-				String response = h.getResponseBodyAsString("utf-8");
-				ret = JSONUtils.getJsonObject(response);
-				JsonNode errorcode = ret.get("errcode");
-				if (null != errorcode) {
-					String errmsg = ret.get("errmsg").asText();
-					throw new IOException("微信获取用户信息错误:" + errmsg);
-				} else {
-					return ret;
-				}
-			} else {
-				throw new IOException("微信服务器请求失败");
-			}
-		}  finally {
 			h.close();
 		}
 	}
@@ -153,7 +117,7 @@ public class WxMiniProgramUtil {
 	 * @return
 	 * @throws IOException
 	 */
-	public static boolean pushTemplateMsg(String openid, String access_token, String template_id, String page, String form_id, JsonNode msg) throws IOException{
+	public static boolean pushTemplateMsg(String openid, String access_token, String template_id, String page, String form_id, JSONObject msg) {
 		HttpClientUtil h = new HttpClientUtil();
 		JsonNode ret = null;
 		try {
@@ -176,7 +140,7 @@ public class WxMiniProgramUtil {
 				map.put("page", page);
 			}
 			map.put("form_id", form_id);
-			map.put("data", msg);
+			map.put("data", msg.toJSONString());
 			
 			JsonNode postData = JSONUtils.getJsonObject(map);
 			
@@ -195,8 +159,11 @@ public class WxMiniProgramUtil {
 					return true;
 				}
 			} else {
-				throw new IOException("微信服务器请求失败");
+				throw new HandleException(ErrorCode.WX_NET_ERROR, "微信服务器请求失败:"+status);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new HandleException(ErrorCode.WX_NET_ERROR, "微信服务器请求失败");
 		} finally {
 			h.close();
 		}

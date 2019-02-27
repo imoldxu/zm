@@ -24,11 +24,14 @@ public class Message {
 	
 	@Column(name = "uid")
 	@ColumnType(jdbcType = JdbcType.INTEGER)
-	private Integer uid;//期
+	private Integer uid;//消息的用户
 
-	public static final int TYPE_NORMAL_NOTICE = 1;
-	public static final int TYPE_RESERVE_NOTICE = 2;
-	public static final int TYPE_TRASACTION_NOTICE = 3;
+	public static final int TYPE_NORMAL_NOTICE = 1;//普通消息，不推送到微信
+	public static final int TYPE_RESERVE_RENDER_NOTICE = 2;//预约求租者的消息
+	public static final int TYPE_RESERVE_ISSUER_NOTICE = 3;//预约发布者的者消息
+	public static final int TYPE_TRASACTION_RENDER_NOTICE = 4;
+	public static final int TYPE_TRASACTION_ISSUER_NOTICE = 5;
+	
 	
 	@Column(name = "type")
 	@ColumnType(jdbcType = JdbcType.TINYINT)

@@ -29,4 +29,9 @@ public class DefaultReserveClient implements ReserveClient {
 		return Response.Error(ErrorCode.MODULE_ERROR, "预约服务调用失败");
 	}
 
+	@Override
+	public Response checkReserve(Long houseid) {
+		return Response.Error(ErrorCode.MODULE_ERROR, "预约服务调用失败");
+	}
+
 }

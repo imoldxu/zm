@@ -63,7 +63,7 @@ public class TransactionService {
 		Response resp = houseClient.modifyState(trans.getHouseid(), House.STATE_LOCKED);
 		resp.fetchOKData();
 		//通知对方
-		msgClient.push(trans.getRuid(), Message.TYPE_TRASACTION_NOTICE, "发布者取消了你的锁定");
+		msgClient.push(trans.getRuid(), Message.TYPE_TRASACTION_RENDER_NOTICE, "发布者取消了你的锁定");
 	}
 
 	public void confirm(Integer uid, Long tid) {
@@ -207,7 +207,7 @@ public class TransactionService {
 			trans.setOrder(order);
 		}
 		//发送房源锁定消息
-		msgClient.push(reserve.getIuid(), Message.TYPE_TRASACTION_NOTICE, "你发布的房源已有人预定");			
+		msgClient.push(reserve.getIuid(), Message.TYPE_TRASACTION_ISSUER_NOTICE, "你发布的房源已有人预定");			
 		
 		return trans;
 	}
