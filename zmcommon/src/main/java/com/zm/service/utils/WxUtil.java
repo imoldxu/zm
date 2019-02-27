@@ -34,10 +34,6 @@ public class WxUtil {
 	
 	public static final String app_appid = "wxc342d56bf6ebb44e";  //乐游
 	public static final String app_secret = "3557c60cb7981b2bd5165fe75696b584";
-
-	public static final String littleapp_appid = "wx27274648aadcf410";  //租盟
-	public static final String littleapp_secret = "d0e80bf423848e0ebb647998e2228d63";
-	
 	
 	public static Map<String, String> sign(String url) {
 		String token = getToken(grant_type, appid, secret);
@@ -203,37 +199,6 @@ public class WxUtil {
 		}
 	}
 	
-	public static JsonNode getOauthInfobylittleApp(String wxCode) throws IOException {
-		HttpClientUtil h = new HttpClientUtil();
-		JsonNode ret = null;
-		try {
-			h.open("https://api.weixin.qq.com/sns/jscode2session", "get");
-			h.addParameter("appid", littleapp_appid);
-			h.addParameter("secret", littleapp_secret);
-			h.addParameter("js_code", wxCode);
-			h.addParameter("grant_type", "authorization_code");
-
-			h.setRequestHeader("Cookie", "Language=zh_CN;UserAgent=PC");
-			int status = h.send();
-			if (200 == status) {
-				String response = h.getResponseBodyAsString("utf-8");
-				ret = JSONUtils.getJsonObject(response);
-				JsonNode errorcode = ret.get("errcode");
-				if (null != errorcode) {
-					System.out.println("weChat errorCode is:"+errorcode);
-					String errMsg = ret.get("errmsg").asText();
-					throw new IOException("微信授权请求错误:" + errMsg);
-				} else {
-					return ret;
-				}
-			} else {
-				throw new IOException("微信服务器请求失败");
-			}
-		} finally {
-			h.close();
-		}
-	}
-	
 	public static JsonNode getUserInfo(JsonNode wxOauthInfo) throws IOException {
 		HttpClientUtil h = new HttpClientUtil();
 		JsonNode ret = null;
@@ -331,7 +296,7 @@ public class WxUtil {
 	public static boolean pushTemplateMsg(String openid, String access_token, String userNick, String orderid,String giftName, String money, String time ) throws IOException{
 		HttpClientUtil h = new HttpClientUtil();
 		JsonNode ret = null;
-		try {
+		try {       https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=ACCESS_TOKEN
 			h.open("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+access_token, "post");
 			
 			HashMap<String, Object> map = new HashMap<>();

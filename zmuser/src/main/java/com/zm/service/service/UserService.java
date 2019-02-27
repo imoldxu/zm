@@ -15,6 +15,7 @@ import com.zm.service.mapper.UserMapper;
 import com.zm.service.utils.IdCardUtil;
 import com.zm.service.utils.RedissonUtil;
 import com.zm.service.utils.ValidDataUtil;
+import com.zm.service.utils.WxMiniProgramUtil;
 import com.zm.service.utils.WxUtil;
 
 import tk.mybatis.mapper.entity.Example;
@@ -30,7 +31,7 @@ public class UserService {
 	public User loginByWxMiniprogram(String wxCode,String rawData, String signature, String encryptedData, String iv) {
 		
 		try {
-			JsonNode wx_session = WxUtil.getOauthInfobylittleApp(wxCode);
+			JsonNode wx_session = WxMiniProgramUtil.getOauthInfobylittleApp(wxCode);
 			String sessionKey = wx_session.get("session_key").asText();
 			String openID = wx_session.get("openid").asText();
 			//String unionID = wx_session.get("unionid").asText();
