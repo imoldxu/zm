@@ -192,13 +192,20 @@ public class UserService {
 //		if(!vercode.equals(code)){
 //			throw new HandleException(ErrorCode.NORMAL_ERROR, "验证码错误");
 //		}
-		User user = userMapper.selectByPrimaryKey(uid);
+		Example ex = new Example(User.class);
+		ex.createCriteria().andEqualTo("idcardnum", idcardnum);
+		User user = userMapper.selectOneByExample(ex);
+		if(user!=null) {
+			throw new HandleException(ErrorCode.NORMAL_ERROR, "该身份证号已被实名，不能绑定第二个账号");
+		}		
+		user = userMapper.selectByPrimaryKey(uid);
 		if(user.getIdcardnum()!=null){
 			throw new HandleException(ErrorCode.NORMAL_ERROR, "用户已实名认证，不可重复认证");
 		}
 		if(!IdCardUtil.isIDCard(idcardnum)){
 			throw new HandleException(ErrorCode.NORMAL_ERROR, "身份证号格式有误");
 		}
+		
 		//TODO 调用实名认证接口
 		
 		//FIXME:验证成功

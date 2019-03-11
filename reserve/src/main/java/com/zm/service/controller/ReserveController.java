@@ -311,7 +311,7 @@ public class ReserveController{
 	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
 	@RequestMapping(value = "/checkReserve", method = RequestMethod.GET)
 	@ApiOperation(value = "检查房源是否有预约，返回true表示有预约，false表示没有预约", notes = "修改我的房源前的检查，是否有预约")
-	public Response preModify(@ApiParam(name = "houseid", value = "房源id") @RequestParam(name = "houseid") Long houseid,
+	public Response checkReserve(@ApiParam(name = "houseid", value = "房源id") @RequestParam(name = "houseid") Long houseid,
 			HttpServletRequest request, HttpServletResponse response) {
 		try{
 			
