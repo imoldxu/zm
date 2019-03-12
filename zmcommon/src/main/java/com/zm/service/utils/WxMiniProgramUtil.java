@@ -13,6 +13,8 @@ import org.springframework.security.crypto.codec.Base64;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.qq.weixin.mp.aes.AesException;
+import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 import com.zm.service.context.ErrorCode;
 import com.zm.service.context.HandleException;
 
@@ -29,6 +31,13 @@ import java.io.UnsupportedEncodingException;
 
 public class WxMiniProgramUtil {
 
+	/**
+	 * 发送消息相关
+	 */
+	private static final String TOKEN = "zkhz";
+	private static final String encodingAesKey = "WADge6EHVX3zxQ3OculChEommAdP5aV3ajk3Hww3RMm";
+
+	
 	public static final String grant_type = "client_credential";
 
 	public static final String littleapp_appid = "wx27274648aadcf410";  //租盟
@@ -103,6 +112,22 @@ public class WxMiniProgramUtil {
 			h.close();
 		}
 		return node.get("access_token").asText();
+	}
+	
+	/**
+	 * 发送模板消息，接收微信的url验证
+	 * @param signature
+	 * @param timestamp
+	 * @param nonce
+	 * @param echostr
+	 * @return
+	 * @throws AesException
+	 */
+	public static String checkSignature(String signature, String timestamp, String nonce, String echostr) throws AesException{
+
+		WXBizMsgCrypt pc = new WXBizMsgCrypt(TOKEN, encodingAesKey, littleapp_appid);
+		String decodeEcho = pc.verifyUrl(signature, timestamp, nonce, echostr);
+		return decodeEcho;
 	}
 	
 	/**
