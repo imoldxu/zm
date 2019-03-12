@@ -126,8 +126,9 @@ public class WxMiniProgramUtil {
 	public static String checkSignature(String signature, String timestamp, String nonce, String echostr) throws AesException{
 
 		WXBizMsgCrypt pc = new WXBizMsgCrypt(TOKEN, encodingAesKey, littleapp_appid);
-		String decodeEcho = pc.verifyUrl(signature, timestamp, nonce, echostr);
-		return decodeEcho;
+		String decodeEcho = pc.verifyUrl(signature, timestamp, nonce, "");
+		
+		return echostr;
 	}
 	
 	/**
