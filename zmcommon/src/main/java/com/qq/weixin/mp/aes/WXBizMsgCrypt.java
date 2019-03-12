@@ -282,8 +282,8 @@ public class WXBizMsgCrypt {
 			throw new AesException(AesException.ValidateSignatureError);
 		}
 
-		String result = decrypt(echoStr);
-		return result;
+		//String result = decrypt(echoStr);
+		return echoStr;
 	}
 
 }
