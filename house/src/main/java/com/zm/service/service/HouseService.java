@@ -176,12 +176,12 @@ public class HouseService {
 		Boolean hasReserve = om.convertValue(reserveClient.checkReserve(house.getId()).fetchOKData(), Boolean.class);
 		
 		if(hasReserve.booleanValue()) {
+			throw new HandleException(ErrorCode.NORMAL_ERROR, "房源已被预约不允许修改，若必要可直接删除房源");
+		}else {
 			house.setState(null);//不更新状态
-		
+			
 			houseMapper.updateByPrimaryKeySelective(house);
 			return house;
-		}else {
-			throw new HandleException(ErrorCode.NORMAL_ERROR, "房源已被预约不允许修改，若必要可直接删除房源");
 		}
 	}
 

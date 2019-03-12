@@ -11,7 +11,7 @@ import com.zm.service.feign.client.fallback.DefaultOrderClient;
 @FeignClient(name="payment-service", fallback=DefaultOrderClient.class)
 public interface OrderClient {
 
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@RequestMapping(value = "/internal/create", method = RequestMethod.POST)
 	Response create( @RequestParam(name="uid")Integer uid,
 			 @RequestParam(name="code")Integer code,
 			 @RequestParam(name="amount")int amount,
