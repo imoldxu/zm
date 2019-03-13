@@ -18,7 +18,7 @@ public class MyWxPayConfig extends WXPayConfig{
 	private static final String appid = "wx27274648aadcf410";
 	private static final String merchantid = "1525781591";
 	private static final String merchant_secret = "fjlsjdlfp28301231j203812031jp203";
-	private static final String certPath = "apiclient_cert.p12";
+	private static final String certPath = "classpath:apiclient_cert.p12";
 	private byte[] certData = null;
 	
 	public MyWxPayConfig() throws Exception{
