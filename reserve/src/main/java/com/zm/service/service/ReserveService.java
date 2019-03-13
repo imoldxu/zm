@@ -102,7 +102,7 @@ public class ReserveService {
 
 	public Reserve getReserve(Long houseid, int uid){
 		Example ex = new Example(Reserve.class);
-		ex.createCriteria().andEqualTo("houseid", houseid).andEqualTo("ruid", uid);
+		ex.createCriteria().andEqualTo("houseid", houseid).andEqualTo("ruid", uid).andNotEqualTo("state", Reserve.STATE_NEW);
 		Reserve r = reserveMapper.selectOneByExample(ex);
 		return r;
 	}
