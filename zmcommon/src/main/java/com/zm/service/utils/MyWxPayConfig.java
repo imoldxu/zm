@@ -1,10 +1,12 @@
 package com.zm.service.utils;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ResourceUtils;
 
 import com.github.wxpay.sdk.IWXPayDomain;
@@ -16,15 +18,24 @@ public class MyWxPayConfig extends WXPayConfig{
 	private static final String appid = "wx27274648aadcf410";
 	private static final String merchantid = "1525781591";
 	private static final String merchant_secret = "fjlsjdlfp28301231j203812031jp203";
-	private static final String certPath = "classpath:apiclient_cert.p12";
+	private static final String certPath = "apiclient_cert.p12";
 	private byte[] certData = null;
 	
 	public MyWxPayConfig() throws Exception{
 		if(!certPath.isEmpty()){
-			File file = ResourceUtils.getFile(certPath);
-	    	InputStream certStream = new FileInputStream(file);
-	    	certData = new byte[(int) file.length()];
-	    	certStream.read(certData);
+			//File file = ResourceUtils.getFile(certPath);
+	    	//InputStream certStream = new FileInputStream(file);
+	    	ClassPathResource res = new ClassPathResource(certPath);
+			InputStream certStream = res.getInputStream();
+			
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			byte[] buffer = new byte[1024];
+			int len = -1;
+			while((len = certStream.read(buffer))!=-1) {
+				baos.write(buffer, 0, len);
+			}
+			certData = baos.toByteArray();
+			baos.close();
 	    	certStream.close();
 		}
 	}
