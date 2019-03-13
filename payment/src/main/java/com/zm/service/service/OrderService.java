@@ -95,7 +95,7 @@ public class OrderService {
 		Date date = new Date();
         String sn = sdf.format(date);
         
-        String uidStr = String.format("%60d", uid);
+        String uidStr = String.format("%06d", uid);
         
         Random r = new Random(date.getTime()+uid);
         int number = r.nextInt(999999);
