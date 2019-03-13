@@ -2,12 +2,9 @@ package com.zm.service.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.ResourceUtils;
 
 import com.github.wxpay.sdk.IWXPayDomain;
 import com.github.wxpay.sdk.WXPayConfig;
@@ -18,14 +15,18 @@ public class MyWxPayConfig extends WXPayConfig{
 	private static final String appid = "wx27274648aadcf410";
 	private static final String merchantid = "1525781591";
 	private static final String merchant_secret = "fjlsjdlfp28301231j203812031jp203";
-	private static final String certPath = "classpath:apiclient_cert.p12";
+	private static final String certPath = "apiclient_cert.p12";
 	private byte[] certData = null;
 	
 	public MyWxPayConfig() throws Exception{
 		if(!certPath.isEmpty()){
 			//File file = ResourceUtils.getFile(certPath);
 	    	//InputStream certStream = new FileInputStream(file);
+			ClassLoader loader = Thread.currentThread().getContextClassLoader();
+			System.out.println("classpath===>"+loader.getResource("").getPath());
+			
 	    	ClassPathResource res = new ClassPathResource(certPath);
+	    	System.out.println("cerpath===>"+res.getPath());
 			InputStream certStream = res.getInputStream();
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
