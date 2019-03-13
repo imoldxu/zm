@@ -53,11 +53,14 @@ public class OrderService {
 	public Order create(Integer uid, Integer code, int amount, String info) {
 		
 		Order order = new Order();
+		order.setSn(generateOrderSN(uid));
 		order.setUid(uid);
 		order.setAmount(amount);
 		order.setCode(code);
 		order.setInfo(info);
-		order.setCreatetime(new Date());
+		Date now = new Date();
+		order.setCreatetime(now);
+		order.setInvalidtime(new Date(now.getTime()+5*60*1000));
 		order.setState(Order.STATE_NEW);
 		orderMapper.insertUseGeneratedKeys(order);
 		
