@@ -16,12 +16,18 @@
   </properties>
 
     <dependencies>
-    <dependency>
-		<groupId>com.zm.service</groupId>
-		<artifactId>zmcommon</artifactId>
-		<version>0.0.1</version>
-	</dependency>
+	    <dependency>
+			<groupId>com.zm.service</groupId>
+			<artifactId>zmcommon</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 	
+		<!-- aop -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        
 		<!-- redis -->
 		<dependency>
 		    <groupId>org.redisson</groupId>
