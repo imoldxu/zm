@@ -171,6 +171,7 @@ public class WxMiniProgramUtil {
 			JsonNode postData = JSONUtils.getJsonObject(map);
 			
 			h.setRequestHeader("Cookie", "Language=zh_CN;UserAgent=PC");
+			h.setRequestHeader("Content-Type", "application/json;charset=utf-8");
 			
 			int status = h.postJson(postData.toString());
 			if (200 == status) {
