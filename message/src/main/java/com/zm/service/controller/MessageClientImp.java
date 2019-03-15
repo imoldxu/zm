@@ -12,11 +12,13 @@ import com.zm.service.context.Response;
 import com.zm.service.feign.client.MessageClient;
 import com.zm.service.service.MessageService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/internal")
+@Api("内部消息接口")
 public class MessageClientImp implements MessageClient{
 
 	@Autowired

@@ -155,7 +155,7 @@ public class HttpClientUtil {
     	//StringEntity entity = new StringEntity(jsonObj, "utf-8");
     	//entity.setContentEncoding("UTF-8");
     	//entity.setContentType("application/json");
-    	StringRequestEntity entity = new StringRequestEntity("application/json", "UTF-8", jsonObj);
+    	StringRequestEntity entity = new StringRequestEntity(jsonObj, "application/json", "UTF-8");
     	((PostMethod)httpMethod).setRequestEntity(entity);
     	
         return client.executeMethod(httpMethod);

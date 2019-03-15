@@ -1,6 +1,5 @@
 package com.zm.service.controller;
 
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,11 +11,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONArray;
 import com.qq.weixin.mp.aes.AesException;
 import com.zm.service.context.HandleException;
 import com.zm.service.context.Response;
 import com.zm.service.entity.Message;
+import com.zm.service.entity.WxFormId;
+import com.zm.service.mapper.WxFormIdMapper;
 import com.zm.service.service.MessageService;
+import com.zm.service.utils.DateUtils;
 import com.zm.service.utils.SessionUtil;
 import com.zm.service.utils.WxMiniProgramUtil;
 
@@ -51,4 +54,19 @@ public class WxMsgController {
 			return ret;
 	}
 	
+	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
+	@RequestMapping(value = "/uploadFormId", method = RequestMethod.GET)
+	@ApiOperation(value = "获取我的消息", notes = "通用接口")
+	public void uploadFormId(@ApiParam(name = "wxFormIds", value = "微信form_id的JSON数组，为消息推送准备") @RequestParam(name = "wxFormIds") JSONArray wxFormIds,
+			HttpServletRequest request, HttpServletResponse response) {
+		try {
+			Integer uid = SessionUtil.getUserId(request);
+			msgService.uploadFormId(uid, wxFormIds);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+
 }

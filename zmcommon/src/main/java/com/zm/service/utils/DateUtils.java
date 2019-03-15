@@ -125,8 +125,7 @@ public class DateUtils {
         return i;
     }
 
-    public static java.util.Date addDays(Date paramDate, int paramInt)
-            throws Exception {
+    public static java.util.Date addDays(Date paramDate, int paramInt){
         Calendar localCalendar = Calendar.getInstance();
         localCalendar.setTime(paramDate);
         int i = localCalendar.get(6);
@@ -134,8 +133,7 @@ public class DateUtils {
         return localCalendar.getTime();
     }
     
-    public static java.util.Date addSecounds(Date paramDate, int paramInt)
-            throws Exception {
+    public static java.util.Date addSecounds(Date paramDate, int paramInt) {
         Calendar localCalendar = Calendar.getInstance();
         localCalendar.setTime(paramDate);
         int i = localCalendar.get(Calendar.SECOND);
