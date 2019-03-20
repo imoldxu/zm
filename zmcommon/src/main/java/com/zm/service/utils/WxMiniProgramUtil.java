@@ -1,6 +1,5 @@
 package com.zm.service.utils;
 
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +8,8 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.codec.Base64;
 
 import com.alibaba.fastjson.JSONObject;
@@ -31,6 +32,8 @@ import java.io.UnsupportedEncodingException;
 
 public class WxMiniProgramUtil {
 
+	private static Logger log = LoggerFactory.getLogger(WxMiniProgramUtil.class);
+	
 	/**
 	 * 发送消息相关
 	 */
@@ -166,6 +169,7 @@ public class WxMiniProgramUtil {
 				map.put("page", page);
 			}
 			map.put("form_id", form_id);
+			log.info(msg.toJSONString());
 			map.put("data", msg.toJSONString());
 			
 			JsonNode postData = JSONUtils.getJsonObject(map);
@@ -173,6 +177,8 @@ public class WxMiniProgramUtil {
 			h.setRequestHeader("Cookie", "Language=zh_CN;UserAgent=PC");
 			h.setRequestHeader("Content-Type", "application/json;charset=utf-8");
 			
+			
+			log.info(postData.toString());
 			int status = h.postJson(postData.toString());
 			if (200 == status) {
 				String response = h.getResponseBodyAsString("utf-8");
