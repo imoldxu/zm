@@ -36,7 +36,7 @@ public class WxMsgController {
 	
 	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
 	@RequestMapping(value = "/wxtoken", method = RequestMethod.GET)
-	@ApiOperation(value = "获取我的消息", notes = "通用接口")
+	@ApiOperation(value = "微信模板消息验证接口", notes = "通用接口")
 	public String getMyMessages(@RequestParam(name="signature") String signature,
 			@RequestParam(name="timestamp") String timestamp,
 			@RequestParam(name="nonce") String nonce,
@@ -55,8 +55,8 @@ public class WxMsgController {
 	}
 	
 	@CrossOrigin(allowedHeaders = "*", allowCredentials = "true")
-	@RequestMapping(value = "/uploadFormId", method = RequestMethod.GET)
-	@ApiOperation(value = "获取我的消息", notes = "通用接口")
+	@RequestMapping(value = "/uploadFormId", method = RequestMethod.POST)
+	@ApiOperation(value = "上传formid", notes = "通用接口")
 	public void uploadFormId(@ApiParam(name = "wxFormIds", value = "微信form_id的JSON数组，为消息推送准备") @RequestParam(name = "wxFormIds") JSONArray wxFormIds,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {

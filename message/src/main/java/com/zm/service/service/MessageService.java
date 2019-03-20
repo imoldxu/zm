@@ -180,7 +180,7 @@ public class MessageService {
 			WxFormId wxFormId = new WxFormId();
 			wxFormId.setUid(uid);
 			wxFormId.setFormid(id);
-			wxFormId.setExpiretime(DateUtils.addDays(new Date(), 6));
+			wxFormId.setExpiretime(DateUtils.addDays(new Date(), 6));//7天有效，为保障临界值，设置为6天有效
 			recordList.add(wxFormId);
 		}
 
