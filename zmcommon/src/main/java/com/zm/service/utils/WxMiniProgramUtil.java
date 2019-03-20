@@ -170,7 +170,7 @@ public class WxMiniProgramUtil {
 			}
 			map.put("form_id", form_id);
 			log.info(msg.toJSONString());
-			map.put("data", msg.toJSONString());
+			map.put("data", msg);
 			
 			JsonNode postData = JSONUtils.getJsonObject(map);
 			
