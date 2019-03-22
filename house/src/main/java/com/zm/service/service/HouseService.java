@@ -46,6 +46,7 @@ public class HouseService {
 	@Autowired
 	ReserveClient reserveClient;
 
+	@Transactional
 	public House issue(Integer uid, House house) {
 		//检查之前是否有发布过
 		House h = getMyHouse(uid);
@@ -167,6 +168,7 @@ public class HouseService {
 		return h;
 	}
 
+	@Transactional
 	public House modify(int uid, House house) {
 		if(uid != house.getUid()){
 			throw new HandleException(ErrorCode.DOMAIN_ERROR, "你没有权限操作");
@@ -181,6 +183,12 @@ public class HouseService {
 			house.setState(null);//不更新状态
 			
 			houseMapper.updateByPrimaryKeySelective(house);
+			
+			//修改房源設置標籤
+			List<HouseTag> tagList = house.getTagList();
+			String tagListStr = JSONUtils.getJsonString(tagList);
+			tagClient.addHouseTags(house.getId(), tagListStr);
+			
 			return house;
 		}
 	}

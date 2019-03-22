@@ -46,6 +46,7 @@ public class TagClientImpl implements TagClient{
 			return Response.Error(ErrorCode.DATA_ERROR, "内部参数错误");
 		}
 		try{
+			houseTagService.clearTags(houseid);
 			houseTagService.addHouseTags(houseid, list);
 		
 			return Response.OK(null);

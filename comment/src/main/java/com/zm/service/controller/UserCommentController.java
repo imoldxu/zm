@@ -70,7 +70,7 @@ public class UserCommentController{
 	* @catalog 接口文档/评论相关
 	* @title 获取用户评论
 	* @description 获取用户评论
-	* @method post
+	* @method get
 	* @url /comment-service/user/getComments
 	* @param targetUid 必选 Integer 评论对象用户id  
 	* @param pageIndex 必选 int 页码 1-n

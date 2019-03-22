@@ -54,5 +54,11 @@ public class HouseTagService {
 		List<HouseTag> list = tagMapper.selectByExample(ex);
 		return list;
 	}
+
+	public void clearTags(long houseid) {
+		Example ex = new Example(HouseTag.class);
+		ex.createCriteria().andEqualTo("houseid", houseid);
+		tagMapper.deleteByExample(ex);
+	}
 	
 }
